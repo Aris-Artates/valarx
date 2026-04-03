@@ -12,11 +12,11 @@ export default function EventPage() {
     <div className="flex min-h-[80vh] w-full flex-col gap-2 px-8 py-12">
       {/* Page heading */}
       <div className="mb-6 flex flex-col gap-2">
-        <span className="text-sm font-medium uppercase tracking-widest text-zinc-500">
+        <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Events
         </span>
         <h1 className="text-4xl font-bold text-white">VALARX Timeline</h1>
-        <p className="text-zinc-400">
+        <p className="text-white/60">
           Hover over an event for a preview. Click to see full details.
         </p>
       </div>
