@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { Event } from '@/app/data/events';
+import { useEffect } from "react";
+import { Event } from "@/app/data/events";
 
 interface EventModalProps {
   event: Event;
@@ -11,10 +11,10 @@ interface EventModalProps {
 export default function EventModal({ event, onClose }: EventModalProps) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
   return (
@@ -25,19 +25,31 @@ export default function EventModal({ event, onClose }: EventModalProps) {
       aria-labelledby="modal-title"
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#0f005c]/80 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="absolute inset-0 bg-[#0f005c]/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
       {/* Panel */}
       <div className="relative z-10 h-[80vh] w-[80vw] overflow-y-auto rounded-2xl border border-[#0f005c] bg-[#42169b] p-8 shadow-2xl shadow-[#0f005c]">
-
         {/* Close button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full p-1.5 text-white/40 transition-colors hover:bg-[#230761] hover:text-white"
           aria-label="Close"
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
@@ -50,9 +62,18 @@ export default function EventModal({ event, onClose }: EventModalProps) {
         </div>
 
         {/* Title */}
-        <h2 id="modal-title" className="mt-4 text-2xl font-bold text-white">
-          {event.title}
-        </h2>
+        <div className="mt-8 flex flex-nowrap justify-between items-center">
+          <h2 id="modal-title" className=" text-2xl font-bold text-white ">
+            {event.title}
+          </h2>
+          {/* Register */}
+          <button
+            onClick={onClose}
+            className="w-[30%] rounded-xl bg-[#a7ff04] px-4 py-2.5 text-sm max-h-10 font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
+          >
+            Register
+          </button>
+        </div>
 
         {/* Meta row */}
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -80,7 +101,9 @@ export default function EventModal({ event, onClose }: EventModalProps) {
               <p className="mt-0.5 text-sm text-white">
                 {event.platform}
                 {event.capacity && (
-                  <span className="ml-2 text-white/40">· {event.capacity} participants</span>
+                  <span className="ml-2 text-white/40">
+                    · {event.capacity} participants
+                  </span>
                 )}
               </p>
             </div>
@@ -115,7 +138,10 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </h3>
             <div className="flex flex-col gap-2">
               {event.schedule.map((item, i) => (
-                <div key={i} className="flex gap-4 rounded-lg border border-[#0f005c] bg-[#230761]/50 px-4 py-3">
+                <div
+                  key={i}
+                  className="flex gap-4 rounded-lg border border-[#0f005c] bg-[#230761]/50 px-4 py-3"
+                >
                   <span className="w-40 shrink-0 text-xs font-medium text-[#a7ff04]/60">
                     {item.time}
                   </span>
@@ -134,7 +160,10 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </h3>
             <ul className="flex flex-col gap-3">
               {event.partnershipNotes.map((note, i) => (
-                <li key={i} className="flex gap-3 text-sm leading-6 text-white/70">
+                <li
+                  key={i}
+                  className="flex gap-3 text-sm leading-6 text-white/70"
+                >
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#a7ff04]/50" />
                   {note}
                 </li>
@@ -142,16 +171,6 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </ul>
           </div>
         )}
-
-        {/* Close */}
-        <div className="mt-8">
-          <button
-            onClick={onClose}
-            className="w-full rounded-xl bg-[#a7ff04] px-4 py-2.5 text-sm font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
-          >
-            Close
-          </button>
-        </div>
       </div>
     </div>
   );
