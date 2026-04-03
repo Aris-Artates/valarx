@@ -24,3 +24,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ── Splash screen animations ── */
+@keyframes splash-bob {
+  0%   { transform: translateY(0px);   animation-timing-function: ease-in-out; }
+  50%  { transform: translateY(-22px); animation-timing-function: ease-in-out; }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes splash-exit-logo {
+  0%   { transform: translateY(0px);    opacity: 1; }
+  100% { transform: translateY(110vh);  opacity: 1; }
+}
+
+@keyframes splash-fade-overlay {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
