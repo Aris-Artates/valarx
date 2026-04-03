@@ -10,19 +10,38 @@ interface TimelineContentProps {
 }
 
 type Item =
-  | { kind: 'separator'; year: string }
+  | { kind: 'year-separator'; year: string }
+  | { kind: 'month-separator'; month: string }
   | { kind: 'event'; event: Event };
 
 function buildItems(events: Event[]): Item[] {
+  // Count events per month key (e.g. "Jan 2025")
+  const monthCounts: Record<string, number> = {};
+  for (const event of events) {
+    const year  = event.date.split(', ').at(-1) ?? event.date;
+    const key   = `${event.month} ${year}`;
+    monthCounts[key] = (monthCounts[key] ?? 0) + 1;
+  }
+
   const items: Item[] = [];
-  let lastYear = '';
+  let lastYear  = '';
+  let lastMonth = '';
 
   for (const event of events) {
-    const year = event.date.split(', ').at(-1) ?? event.date;
+    const year     = event.date.split(', ').at(-1) ?? event.date;
+    const monthKey = `${event.month} ${year}`;
+
     if (year !== lastYear) {
-      items.push({ kind: 'separator', year });
-      lastYear = year;
+      items.push({ kind: 'year-separator', year });
+      lastYear  = year;
+      lastMonth = '';
     }
+
+    if (monthCounts[monthKey] > 1 && monthKey !== lastMonth) {
+      items.push({ kind: 'month-separator', month: event.month });
+      lastMonth = monthKey;
+    }
+
     items.push({ kind: 'event', event });
   }
 
@@ -40,31 +59,48 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
         const isFirst = index === 0;
         const isLast  = index === total - 1;
 
-        // ── Dot column (shared between separator and event) ──────────────
+        // ── Dot column ───────────────────────────────────────────────────
         const DotCol = ({ children }: { children: React.ReactNode }) => (
           <div className="relative flex flex-col items-center">
             {!isFirst && (
-              <div className="absolute top-0 bottom-1/2 left-1/2 w-px -translate-x-1/2 bg-zinc-700" />
+              <div className="absolute top-0 bottom-1/2 left-1/2 w-px -translate-x-1/2 bg-[#0f005c]" />
             )}
             {!isLast && (
-              <div className="absolute top-1/2 bottom-0 left-1/2 w-px -translate-x-1/2 bg-zinc-700" />
+              <div className="absolute top-1/2 bottom-0 left-1/2 w-px -translate-x-1/2 bg-[#0f005c]" />
             )}
             {children}
           </div>
         );
 
-        // ── SEPARATOR ROW ─────────────────────────────────────────────────
-        if (item.kind === 'separator') {
+        // ── YEAR SEPARATOR ROW ────────────────────────────────────────────
+        if (item.kind === 'year-separator') {
           return (
-            <Fragment key={`sep-${item.year}`}>
+            <Fragment key={`year-sep-${item.year}`}>
               <DotCol>
-                <span className="relative z-10 mt-5 h-4 w-4 rounded-full border-2 border-zinc-500 bg-zinc-950" />
+                <span
+                  className="relative z-10 mt-5 h-4.5 w-4.5 rounded-full border-2 border-[#a7ff04]/60"
+                  style={{ backgroundColor: '#6b9e02' }}
+                />
               </DotCol>
-
-              {/* Year label — no card */}
               <div className="flex items-center py-4">
-                <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#a7ff04]/70">
                   {item.year}
+                </span>
+              </div>
+            </Fragment>
+          );
+        }
+
+        // ── MONTH SEPARATOR ROW ──────────────────────────────────────────
+        if (item.kind === 'month-separator') {
+          return (
+            <Fragment key={`month-sep-${item.month}-${index}`}>
+              <DotCol>
+                <span className="relative z-10 mt-5 h-4 w-4 rounded-full border-2 border-[#a7ff04]/30 bg-[#300a86]" />
+              </DotCol>
+              <div className="flex items-center py-3">
+                <span className="text-xs font-medium uppercase tracking-widest text-white/35">
+                  {item.month}
                 </span>
               </div>
             </Fragment>
@@ -87,11 +123,11 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
                 <span className={`
                   h-4 w-4 rounded-full border-2 transition-all duration-200
                   ${isActive
-                    ? 'scale-125 border-white bg-white'
-                    : 'border-zinc-500 bg-zinc-900 group-hover:border-white group-hover:bg-zinc-700'
+                    ? 'scale-125 border-[#a7ff04] bg-[#a7ff04]'
+                    : 'border-white/30 bg-[#42169b] group-hover:border-[#a7ff04] group-hover:bg-[#230761]'
                   }
                 `} />
-                <span className="mt-1 text-[10px] text-zinc-600 group-hover:text-zinc-400">
+                <span className="mt-1 text-[10px] text-white/30 group-hover:text-[#a7ff04]/70">
                   {event.month}
                 </span>
               </button>
@@ -104,35 +140,35 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
               className={`
                 my-3 w-full rounded-xl border p-5 text-left transition-all duration-200
                 ${isActive
-                  ? 'border-white bg-zinc-800'
-                  : 'border-zinc-800 bg-zinc-900 hover:border-zinc-600 hover:bg-zinc-800'
+                  ? 'border-[#a7ff04] bg-[#230761]'
+                  : 'border-[#0f005c] bg-[#42169b] hover:border-[#a7ff04]/40 hover:bg-[#230761]'
                 }
               `}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-zinc-700 px-2.5 py-0.5 text-xs font-medium text-zinc-300">
+                    <span className="rounded-full bg-[#0f005c] px-2.5 py-0.5 text-xs font-medium text-[#a7ff04]/80">
                       {event.type}
                     </span>
-                    <span className="text-xs text-zinc-500">{event.date}</span>
+                    <span className="text-xs text-white/40">{event.date}</span>
                   </div>
                   <h3 className="mt-2 text-base font-semibold text-white">{event.title}</h3>
 
                   <div className={`overflow-hidden transition-all duration-200 ${
                     isHovered || isActive ? 'mt-2 max-h-24 opacity-100' : 'max-h-0 opacity-0'
                   }`}>
-                    <p className="text-sm text-zinc-400">{event.brief}</p>
-                    <p className="mt-1 text-xs text-zinc-600">
+                    <p className="text-sm text-white/60">{event.brief}</p>
+                    <p className="mt-1 text-xs text-white/35">
                       {event.location} &mdash;{' '}
-                      <span className="text-zinc-500">Click for full details</span>
+                      <span className="text-white/50">Click for full details</span>
                     </p>
                   </div>
                 </div>
 
                 <svg
-                  className={`mt-1 h-4 w-4 shrink-0 text-zinc-600 transition-all duration-200 ${
-                    isHovered || isActive ? 'translate-x-0 text-zinc-400' : '-translate-x-1 opacity-0'
+                  className={`mt-1 h-4 w-4 shrink-0 transition-all duration-200 ${
+                    isHovered || isActive ? 'translate-x-0 text-[#a7ff04]' : '-translate-x-1 opacity-0 text-white/30'
                   }`}
                   fill="none"
                   stroke="currentColor"
