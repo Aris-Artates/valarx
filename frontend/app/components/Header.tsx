@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -10,11 +13,13 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-black/90 backdrop-blur">
-      <nav className="relative flex w-full items-center px-6 py-4">
-        {/* Logo — pinned left */}
-        <Link href="/" className="flex items-center">
+    <header className="sticky top-0 z-50 w-full border-b border-[#0f005c] bg-[#300a86]/95 backdrop-blur">
+      <nav className="relative flex w-full min-h-16 items-center px-6 py-4">
+        {/* Logo — pinned left, hidden on small screens */}
+        <Link href="/" className="hidden sm:flex items-center">
           <Image
             src="/valarx.png"
             alt="VALARX"
@@ -31,7 +36,9 @@ export default function Header() {
             <li key={href}>
               <Link
                 href={href}
-                className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
+                className={`text-sm sm:text-base font-medium transition-colors hover:text-[#a7ff04] ${
+                  pathname === href ? 'text-[#a7ff04]' : 'text-white/70'
+                }`}
               >
                 {label}
               </Link>

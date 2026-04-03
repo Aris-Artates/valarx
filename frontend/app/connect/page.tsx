@@ -30,11 +30,11 @@ export default function ConnectPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 py-20">
       <div className="flex flex-col gap-4">
-        <span className="text-sm font-medium uppercase tracking-widest text-zinc-500">
+        <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Connect
         </span>
         <h1 className="text-4xl font-bold text-white">Get in touch</h1>
-        <p className="max-w-xl text-lg text-zinc-400">
+        <p className="max-w-xl text-lg text-white/60">
           Find us on the platforms where we are most active. All events are free and open
           to anyone interested.
         </p>
@@ -47,13 +47,13 @@ export default function ConnectPage() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between rounded-xl border border-zinc-800 bg-zinc-900 p-6 transition-colors hover:border-zinc-600 hover:bg-zinc-800"
+            className="group flex items-center justify-between rounded-xl border border-[#0f005c] bg-[#42169b] p-6 transition-colors hover:border-[#a7ff04]/50 hover:bg-[#230761]"
           >
             <div className="flex flex-col gap-1">
               <p className="font-semibold text-white">{label}</p>
-              <p className="text-sm text-zinc-400">{description}</p>
+              <p className="text-sm text-white/60">{description}</p>
             </div>
-            <span className="ml-4 flex-shrink-0 rounded-full border border-zinc-700 px-4 py-1.5 text-sm font-medium text-zinc-300 transition-colors group-hover:border-zinc-500 group-hover:text-white">
+            <span className="ml-4 shrink-0 rounded-full border border-[#a7ff04]/40 px-4 py-1.5 text-sm font-medium text-white/80 transition-colors group-hover:border-[#a7ff04] group-hover:text-[#a7ff04]">
               {cta}
             </span>
           </a>
