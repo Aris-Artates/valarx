@@ -1,65 +1,45 @@
-import Image from "next/image";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex flex-1 flex-col items-center justify-center px-6 py-24">
+      <div className="flex max-w-2xl flex-col items-center gap-8 text-center">
         <Image
-          className="dark:invert"
           src="/valarx.png"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          alt="VALARX"
+          width={140}
+          height={35}
           priority
+          className="object-contain"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            VALARX
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking to join the LUA Webinar? Head over to the{" "}
-            <a
-              href="https://luma.com/create"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              VALARX Signup
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://www.facebook.com/profile.php?id=61586341747138"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Facebook
-            </a>{" "}
-            page.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-39.5"
-            href="https://valarx.vervel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <h1 className="text-5xl font-bold tracking-tight text-white">
+          Welcome to VALARX
+        </h1>
+
+        <p className="max-w-lg text-lg leading-8 text-zinc-400">
+          A community built for builders. Join our webinars, workshops, and summits —
+          or follow along on Discord and Facebook.
+        </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/event"
+            className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-zinc-200"
           >
-            <Image
-              className="light:invert"
-              src="/valarx.png"
-              alt="VALARX logomark"
-              width={16}
-              height={16}
-            />
-            Vercel Link
-          </a>
+            View Events
+          </Link>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-39.5"
             href="https://discord.gg/5Bq9Vu39"
             target="_blank"
             rel="noopener noreferrer"
+            className="rounded-full border border-zinc-700 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:border-zinc-500 hover:bg-zinc-800"
           >
-            Discord
+            Join Discord
           </a>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
