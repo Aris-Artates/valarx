@@ -2,13 +2,13 @@ export default function AboutPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 py-20">
       <div className="flex flex-col gap-4">
-        <span className="text-sm font-medium uppercase tracking-widest text-zinc-500">
+        <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           About
         </span>
         <h1 className="text-4xl font-bold text-white">What is VALARX?</h1>
       </div>
 
-      <div className="flex flex-col gap-6 text-lg leading-8 text-zinc-400">
+      <div className="flex flex-col gap-6 text-lg leading-8 text-white/60">
         <p>
           VALARX is a community-first platform created to bring builders, learners, and
           leaders together. We host webinars, workshops, summits, and hackathons designed
@@ -33,10 +33,10 @@ export default function AboutPage() {
         ].map(({ label, value }) => (
           <div
             key={label}
-            className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 text-center"
+            className="rounded-xl border border-[#0f005c] bg-[#42169b] p-6 text-center"
           >
-            <p className="text-3xl font-bold text-white">{value}</p>
-            <p className="mt-1 text-sm text-zinc-500">{label}</p>
+            <p className="text-3xl font-bold text-[#a7ff04]">{value}</p>
+            <p className="mt-1 text-sm text-white/50">{label}</p>
           </div>
         ))}
       </div>

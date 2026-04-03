@@ -30,11 +30,11 @@ export default function TeamPage() {
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-12 px-6 py-20">
       <div className="flex flex-col gap-4">
-        <span className="text-sm font-medium uppercase tracking-widest text-zinc-500">
+        <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Team
         </span>
         <h1 className="text-4xl font-bold text-white">The people behind VALARX</h1>
-        <p className="max-w-xl text-lg text-zinc-400">
+        <p className="max-w-xl text-lg text-white/60">
           A small but dedicated group of builders, organizers, and community leaders
           who make everything happen.
         </p>
@@ -44,16 +44,16 @@ export default function TeamPage() {
         {team.map((member) => (
           <div
             key={member.name}
-            className="flex flex-col gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-6"
+            className="flex flex-col gap-4 rounded-xl border border-[#0f005c] bg-[#42169b] p-6"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-700 text-sm font-bold text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0f005c] text-sm font-bold text-[#a7ff04]">
               {member.initials}
             </div>
             <div>
               <p className="font-semibold text-white">{member.name}</p>
-              <p className="text-sm text-zinc-500">{member.role}</p>
+              <p className="text-sm text-white/50">{member.role}</p>
             </div>
-            <p className="text-sm leading-6 text-zinc-400">{member.bio}</p>
+            <p className="text-sm leading-6 text-white/60">{member.bio}</p>
           </div>
         ))}
       </div>
