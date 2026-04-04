@@ -26,7 +26,7 @@ export default function RegisterPage() {
       <iframe
         src={event.lumaUrl}
         className="w-full flex-1 rounded-2xl"
-        style={{ border: '1px solid #bfcbda88', minHeight: '80vh' }}
+        style={{ border: '1px solid #bfcbda88', minHeight: '50vh', maxHeight: '80vh' }}
         allow="fullscreen; payment"
         tabIndex={0}
       />
