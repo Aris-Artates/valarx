@@ -3,10 +3,11 @@
 import { notFound, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { events } from '@/app/data/events';
+import { findEventByHash } from '@/lib/eventHash';
 
 export default function RegisterPage() {
   const { id } = useParams<{ id: string }>();
-  const event = events.find((e) => e.id === id);
+  const event = findEventByHash(events, id);
 
   if (!event || !event.lumaUrl) notFound();
 
