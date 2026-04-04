@@ -33,10 +33,10 @@ export default function ConnectPage() {
         <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Connect
         </span>
-        <h1 className="text-4xl font-bold text-white">Get in touch</h1>
+        <h1 className="text-4xl font-bold text-white">Lorem ipsum dolor sit amet</h1>
         <p className="max-w-xl text-lg text-white/60">
-          Find us on the platforms where we are most active. All events are free and open
-          to anyone interested.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
 
