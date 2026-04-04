@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Event, Person, SocialPlatform } from "@/app/data/events";
+import { hashEventId } from "@/lib/eventHash";
 
 interface EventModalProps {
   event: Event;
@@ -151,7 +152,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
           </h2>
           {event.lumaUrl && (
             <Link
-              href={`/event/${event.id}/register`}
+              href={`/event/${hashEventId(event.id)}/register`}
               className="shrink-0 rounded-xl bg-[#a7ff04] px-6 py-2.5 text-sm font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
             >
               Register
