@@ -120,13 +120,15 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
                 title={event.title}
                 className="group relative z-10 mt-5 flex flex-col items-center"
               >
-                <span className={`
-                  h-4 w-4 rounded-full border-2 transition-all duration-200
-                  ${isActive
-                    ? 'scale-125 border-[#a7ff04] bg-[#a7ff04]'
-                    : 'border-white/30 bg-[#42169b] group-hover:border-[#a7ff04] group-hover:bg-[#230761]'
-                  }
-                `} />
+                <div className="relative flex h-5 w-5 items-center justify-center">
+                  <span className={`
+                    absolute rounded-full border-2 transition-all duration-200
+                    ${isActive
+                      ? 'h-5 w-5 border-[#a7ff04] bg-[#a7ff04]'
+                      : 'h-4 w-4 border-white/30 bg-[#42169b] group-hover:border-[#a7ff04] group-hover:bg-[#230761]'
+                    }
+                  `} />
+                </div>
                 <span className="mt-1 text-[10px] text-white/30 group-hover:text-[#a7ff04]/70">
                   {event.month}
                 </span>
