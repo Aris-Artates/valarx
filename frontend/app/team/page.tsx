@@ -9,13 +9,13 @@ const team: TeamMember[] = [
   {
     name: 'Lorem Ipsum',
     role: 'Dolor Sit Amet',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    bio: 'Arjay was here.',
     initials: 'LI',
   },
   {
     name: 'Consectetur',
     role: 'Adipiscing Elit',
-    bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    bio: 'Arjay was here.',
     initials: 'CE',
   },
   {
