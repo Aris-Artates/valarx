@@ -10,26 +10,26 @@ export default function AboutPage() {
 
       <div className="flex flex-col gap-6 text-lg leading-8 text-white/60">
         <p>
-          VALARX is a community-first platform created to bring builders, learners, and
-          leaders together. We host webinars, workshops, summits, and hackathons designed
-          to help people grow, collaborate, and ship real work.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
         <p>
-          We believe in open knowledge, honest feedback, and building in public. Whether
-          you are just starting out or have years of experience, there is a place for you
-          in the VALARX community.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
         </p>
         <p>
-          Our events are free to attend and run across Discord, Luma, and other online
-          platforms to stay accessible to everyone, everywhere.
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+          doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis.
         </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-3">
         {[
-          { label: 'Founded', value: '2025' },
-          { label: 'Community', value: 'Global' },
-          { label: 'Events', value: '5+' },
+          { label: 'Lorem', value: '0000' },
+          { label: 'Ipsum', value: 'Dolor' },
+          { label: 'Amet', value: '0+' },
         ].map(({ label, value }) => (
           <div
             key={label}

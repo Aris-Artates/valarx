@@ -7,22 +7,22 @@ interface TeamMember {
 
 const team: TeamMember[] = [
   {
-    name: 'Aris Artates',
-    role: 'Founder & Lead',
-    bio: 'Driving the vision and direction of VALARX. Passionate about building communities and creating opportunities for everyone.',
-    initials: 'AA',
+    name: 'Lorem Ipsum',
+    role: 'Dolor Sit Amet',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    initials: 'LI',
   },
   {
-    name: 'Core Team',
-    role: 'Operations & Events',
-    bio: 'The backbone of every VALARX event — managing logistics, content, and community engagement behind the scenes.',
-    initials: 'CT',
+    name: 'Consectetur',
+    role: 'Adipiscing Elit',
+    bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    initials: 'CE',
   },
   {
-    name: 'Community Leads',
-    role: 'Discord & Outreach',
-    bio: 'Moderating our spaces, welcoming new members, and keeping conversations productive and inclusive.',
-    initials: 'CL',
+    name: 'Duis Aute',
+    role: 'Irure Dolor',
+    bio: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    initials: 'DA',
   },
 ];
 
@@ -33,10 +33,10 @@ export default function TeamPage() {
         <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Team
         </span>
-        <h1 className="text-4xl font-bold text-white">The people behind VALARX</h1>
+        <h1 className="text-4xl font-bold text-white">Lorem ipsum dolor sit amet</h1>
         <p className="max-w-xl text-lg text-white/60">
-          A small but dedicated group of builders, organizers, and community leaders
-          who make everything happen.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua.
         </p>
       </div>
 
