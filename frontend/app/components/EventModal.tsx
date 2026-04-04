@@ -123,7 +123,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
       />
 
       {/* Panel */}
-      <div className="relative z-10 h-[80vh] w-[80vw] overflow-y-auto rounded-2xl border border-[#0f005c] bg-[#42169b] p-8 shadow-2xl shadow-[#0f005c]">
+      <div className="relative z-10 h-[80vh] w-[80vw] overflow-y-auto rounded-2xl border border-[#0f005c] bg-[#42169b] p-5 shadow-2xl shadow-[#0f005c] sm:p-8">
 
         {/* Close button */}
         <button
@@ -145,7 +145,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
         </div>
 
         {/* Title + Register */}
-        <div className="mt-4 flex flex-nowrap items-center justify-between gap-4">
+        <div className="mt-2 flex flex-nowrap items-center justify-between gap-4">
           <h2 id="modal-title" className="text-2xl font-bold text-white">
             {event.title}
           </h2>
@@ -197,9 +197,9 @@ export default function EventModal({ event, onClose }: EventModalProps) {
               {event.schedule.map((item, i) => (
                 <div
                   key={i}
-                  className="flex gap-4 rounded-lg border border-[#0f005c] bg-[#230761]/50 px-4 py-3"
+                  className="flex flex-col gap-0.5 rounded-lg border border-[#0f005c] bg-[#230761]/50 px-4 py-3 sm:flex-row sm:gap-4"
                 >
-                  <span className="w-40 shrink-0 text-xs font-medium text-[#a7ff04]/60">
+                  <span className="text-xs font-medium text-[#a7ff04]/60 sm:w-40 sm:shrink-0">
                     {item.time}
                   </span>
                   <span className="text-sm text-white/85">{item.activity}</span>
