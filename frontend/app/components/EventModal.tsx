@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Event, Person, SocialPlatform } from "@/app/data/events";
 
 interface EventModalProps {
@@ -100,8 +101,6 @@ function PersonCard({ person }: { person: Person }) {
 }
 
 export default function EventModal({ event, onClose }: EventModalProps) {
-  const [showLuma, setShowLuma] = useState(false);
-
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -137,26 +136,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
           </svg>
         </button>
 
-        {/* Luma registration overlay */}
-        {showLuma && event.lumaUrl && (
-          <div className="absolute inset-0 z-20 flex flex-col rounded-2xl bg-[#42169b] p-8">
-            <button
-              onClick={() => setShowLuma(false)}
-              className="mb-4 self-start text-sm text-white/50 transition-colors hover:text-white"
-            >
-              ← Back to event
-            </button>
-            <iframe
-              src={event.lumaUrl}
-              className="w-full flex-1 rounded-xl"
-              style={{ border: "1px solid #bfcbda88" }}
-              allow="fullscreen; payment"
-              tabIndex={0}
-            />
-          </div>
-        )}
-
-        {/* Badge + date */}
+{/* Badge + date */}
         <div className="flex flex-wrap items-center gap-3">
           <span className="rounded-full bg-[#0f005c] px-3 py-1 text-xs font-medium text-[#a7ff04]/80">
             {event.type}
@@ -170,12 +150,12 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             {event.title}
           </h2>
           {event.lumaUrl && (
-            <button
-              onClick={() => setShowLuma(true)}
+            <Link
+              href={`/event/${event.id}/register`}
               className="shrink-0 rounded-xl bg-[#a7ff04] px-6 py-2.5 text-sm font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
             >
               Register
-            </button>
+            </Link>
           )}
         </div>
 
