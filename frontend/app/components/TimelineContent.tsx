@@ -118,11 +118,11 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
               <button
                 onClick={() => onSelect(event)}
                 title={event.title}
-                className="group relative z-10 mt-5 flex flex-col items-center"
+                className="group absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
               >
-                <div className="relative flex h-5 w-5 items-center justify-center">
+                <div className="flex h-5 w-5 items-center justify-center">
                   <span className={`
-                    absolute rounded-full border-2 transition-all duration-200
+                    block rounded-full border-2 transition-all duration-200
                     ${isActive
                       ? 'h-5 w-5 border-[#a7ff04] bg-[#a7ff04]'
                       : 'h-4 w-4 border-white/30 bg-[#42169b] group-hover:border-[#a7ff04] group-hover:bg-[#230761]'

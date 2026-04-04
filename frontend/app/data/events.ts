@@ -3,6 +3,20 @@ export interface ScheduleItem {
   activity: string;
 }
 
+export type SocialPlatform = 'linkedin' | 'twitter' | 'github' | 'instagram' | 'facebook' | 'website';
+
+export interface Social {
+  platform: SocialPlatform;
+  url: string;
+}
+
+export interface Person {
+  name: string;
+  title: string;
+  photo?: string;
+  socials?: Social[];
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -12,15 +26,13 @@ export interface Event {
   brief: string;
   description: string;
   location: string;
-  organizer?: string;
-  partner?: string;
-  contact?: string;
-  platform?: string;
+  organizers?: Person[];
+  speakers?: Person[];
+  partners?: Person[];
   capacity?: number;
   duration?: string;
   timeframe?: string;
   schedule?: ScheduleItem[];
-  partnershipNotes?: string[];
   lumaUrl?: string;
 }
 
@@ -33,12 +45,18 @@ export const events: Event[] = [
     type: 'Online Seminar / Technical Workshop',
     brief: 'A two-hour technical workshop on Lua scripting, hosted in partnership with DICT Region VIII.',
     description:
-      'An online seminar and technical workshop covering Lua syntax basics through to real-world scripting integration. Organized by Aris L. Artates Jr. in partnership with DICT Region VIII, the event runs on a DICT Zoom account with a capacity of 300 participants.',
-    location: 'DICT Zoom (Online)',
-    organizer: 'Aris L. Artates Jr.',
-    partner: 'DICT Region VIII — Department of Information and Communications Technology',
-    contact: 'Claire Fernandez (DICT)',
-    platform: 'DICT Zoom Account',
+      'An online seminar and technical workshop covering Lua syntax basics through to real-world scripting integration. Organized by Aris L. Artates Jr. in partnership with DICT Region VIII.',
+    location: 'Zoom (Online)',
+    organizers: [
+      { name: 'Aris L. Artates Jr.', title: 'Event Organizer' },
+      { name: 'TBA', title: 'To Be Announced' },
+    ],
+    speakers: [
+      { name: 'TBA', title: 'To Be Announced' },
+    ],
+    partners: [
+      { name: 'DICT Region VIII', title: 'Department of Information and Communications Technology' },
+    ],
     capacity: 300,
     duration: '2 hours and 20 minutes',
     timeframe: '12:55 PM - 3:15 PM',
@@ -52,11 +70,6 @@ export const events: Event[] = [
       { time: '3:05 PM - 3:12 PM',  activity: 'Q&A - Part 2' },
       { time: '3:12 PM - 3:15 PM',  activity: 'Closing Remarks' },
     ],
-    partnershipNotes: [
-      'DICT Region VIII has a reserved 15-minute slot at the start of the program to discuss cybersecurity awareness and regional ICT programs.',
-      'The event trailer and promotional materials will feature the DICT logo as the official partner.',
-      'Coordination is ongoing regarding receipt of a high-resolution logo and specific branding or speaker requirements from DICT.',
-    ],
-    lumaUrl: "https://luma.com/embed/event/evt-RmEy6gjQwHyIKtF/simple",
+    lumaUrl: 'https://luma.com/embed/event/evt-RmEy6gjQwHyIKtF/simple',
   },
 ];
