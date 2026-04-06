@@ -194,16 +194,30 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-[#a7ff04]/70">
               Program Schedule
             </h3>
-            <div className="flex flex-col gap-2">
+            <div className="overflow-hidden rounded-xl border border-[#0f005c]">
+              {/* Header */}
+              <div className="grid grid-cols-[7rem_1fr] border-b border-[#0f005c] bg-[#0f005c] sm:grid-cols-[10rem_1fr]">
+                <div className="px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#a7ff04]">
+                  Time
+                </div>
+                <div className="border-l border-[#230761] px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#a7ff04]">
+                  Activity
+                </div>
+              </div>
+              {/* Rows */}
               {event.schedule.map((item, i) => (
                 <div
                   key={i}
-                  className="flex flex-col gap-0.5 rounded-lg border border-[#0f005c] bg-[#230761]/50 px-4 py-3 sm:flex-row sm:gap-4"
+                  className={`grid grid-cols-[7rem_1fr] sm:grid-cols-[10rem_1fr] ${
+                    i % 2 === 0 ? 'bg-[#230761]/60' : 'bg-[#0f005c]/50'
+                  } ${i < event.schedule!.length - 1 ? 'border-b border-[#0f005c]/70' : ''}`}
                 >
-                  <span className="text-xs font-medium text-[#a7ff04]/60 sm:w-40 sm:shrink-0">
+                  <div className="px-4 py-3 text-xs font-medium leading-snug text-[#a7ff04]/70">
                     {item.time}
-                  </span>
-                  <span className="text-sm text-white/85">{item.activity}</span>
+                  </div>
+                  <div className="border-l border-[#0f005c]/70 px-4 py-3 text-sm leading-snug text-white/85">
+                    {item.activity}
+                  </div>
                 </div>
               ))}
             </div>
