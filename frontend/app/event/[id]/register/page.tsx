@@ -31,6 +31,6 @@ export default function RegisterPage() {
         allow="fullscreen; payment"
         tabIndex={0}
       />
-    </div>
+    </div>  
   );
 }
