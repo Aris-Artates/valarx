@@ -1,83 +1,93 @@
 import FadeIn from '../components/FadeIn';
+import StickyFadeSection from '../components/StickyFadeSection';
 
 export default function AboutPage() {
   return (
-    <div className="flex w-full flex-col px-12 py-24">
+    <div className="flex w-full flex-col px-24 py-24">
 
       {/* Hero */}
-      <FadeIn className="flex min-h-screen flex-col items-center justify-center gap-6 mb-24 text-center">
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]">
-          About Valarx
-        </span>
-        <h1 className="max-w-2xl text-5xl font-bold leading-tight text-white">
-          Growing knowledge, not just collecting it.
-        </h1>
-        <p className="max-w-xl text-lg leading-8 text-white/60">
-          Valarx is a community built around one idea: understanding games is just
-          as rewarding as playing them. We bring together aspiring programmers,
-          developers, and enthusiasts to share knowledge, build skills, and grow
-          alongside each other.
-        </p>
-      </FadeIn>
-
-      {/* Mission */}
-      <FadeIn className="mb-24 flex flex-col gap-8">
-        <div className="pl-[25%] flex flex-col gap-4">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
-            Mission
+      <FadeIn className="flex min-h-screen flex-col items-center justify-start gap-6 mb-24 pt-24 text-center">
+        <div className="flex flex-col items-center gap-6">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]">
+            About Valarx
           </span>
-          <h2 className="text-3xl font-bold text-white">
-            The moment something clicks.
-          </h2>
+          <h1 className="whitespace-nowrap text-5xl font-bold italic leading-tight text-white">
+            Sharing knowledge, not just storing it.
+          </h1>
         </div>
-        <div className="pl-[60%] flex flex-col gap-5 text-base leading-8 text-white/60">
-          <p>
-            There is a difference between reading about game development and
-            actually sitting down, writing a script, and watching something move
-            on screen because <em className="text-white/80 not-italic font-medium">you</em> made
-            it happen.
-          </p>
-          <p>
-            That moment is what Valarx is built around. We are here to help
-            people collect more of those moments: the ones where a concept stops
-            being abstract, where you realize you are not just a player anymore.
-          </p>
+        <div className="grid grid-cols-3 gap-x-8 w-full">
+          {/* Mission — left */}
+          <StickyFadeSection>
+              <div className="flex flex-col gap-4 text-left">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+                  Mission
+                </span>
+                <h2 className="text-3xl font-bold text-white">
+                  The moment something clicks.
+                </h2>
+              </div>
+              <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-white/60 w-full">
+                <p>
+                  There is a difference between reading about game development and
+                  actually sitting down, writing a script, and watching something move
+                  on screen because you made it happen.
+                </p>
+                <p>
+                  That moment is what Valarx is built around. We are here to help
+                  people collect more of those moments: the ones where a concept stops
+                  being abstract, where you realize you are not just a player anymore.
+                </p>
+              </div>
+          </StickyFadeSection>
+
+          {/* Center */}
+          <div className="relative min-h-[200vh]">
+            <p className="text-lg leading-8 text-white/60">
+              Valarx is a community built around one idea: understanding games is just
+              as rewarding as playing them. We bring together aspiring programmers,
+              developers, and enthusiasts to share knowledge, build skills, and grow
+              alongside each other.
+            </p>
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-transparent to-[#300a86]" />
+          </div>
+
+          {/* Education — right */}
+          <StickyFadeSection>
+            <div className="flex flex-col gap-4 text-right">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+                Education
+              </span>
+              <h2 className="text-3xl font-bold text-white">
+                How we approach learning.
+              </h2>
+            </div>
+            <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-white/60 w-full">
+              <p>
+                Most people do not need another lecture. They need a reason to try.
+              </p>
+              <p>
+                At Valarx, education is built around doing. Our workshops are
+                practical by design. We pick real tools, real environments, and real
+                problems. That means breaking down programming fundamentals like Lua,
+                not as an academic exercise, but as a means to actually script
+                something inside a game you recognize. The theory follows the
+                experience, not the other way around.
+              </p>
+              <p>
+                Game platforms are among the best sandboxes that exist for learning
+                to code. The feedback is immediate, the context is familiar, and the
+                motivation is built in. When you can see your logic play out in a
+                game world, debugging stops feeling like a chore and starts feeling
+                like problem-solving.
+              </p>
+            </div>
+          </StickyFadeSection>
         </div>
       </FadeIn>
 
-      {/* How We Learn */}
-      <FadeIn className="mb-24 flex flex-col gap-12">
-        <div className="grid gap-12 sm:grid-cols-2">
-          <div className="flex flex-col gap-4">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
-              Education
-            </span>
-            <h2 className="text-3xl font-bold text-white">
-              How we approach learning.
-            </h2>
-          </div>
-          <div className="flex flex-col gap-5 text-base leading-8 text-white/60">
-            <p>
-              Most people do not need another lecture. They need a reason to try.
-            </p>
-            <p>
-              At Valarx, education is built around doing. Our workshops are
-              practical by design. We pick real tools, real environments, and real
-              problems. That means breaking down programming fundamentals like Lua,
-              not as an academic exercise, but as a means to actually script
-              something inside a game you recognize. The theory follows the
-              experience, not the other way around.
-            </p>
-            <p>
-              Game platforms are among the best sandboxes that exist for learning
-              to code. The feedback is immediate, the context is familiar, and the
-              motivation is built in. When you can see your logic play out in a
-              game world, debugging stops feeling like a chore and starts feeling
-              like problem-solving.
-            </p>
-          </div>
-        </div>
-
+      {/* How We Learn cards */}
+      <StickyFadeSection>
+        <div className="mb-24 flex flex-col gap-12">
         <div className="grid gap-px overflow-hidden rounded-xl border border-[#0f005c] sm:grid-cols-3">
           {[
             {
@@ -103,10 +113,13 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-      </FadeIn>
+        </div>
+      </StickyFadeSection>
 
       {/* Community */}
-      <FadeIn className="mb-24 flex flex-col gap-12">
+      <div className="relative">
+      <div className="-mx-24 h-px bg-[#0f005c]" />
+      <FadeIn className="mb-24 flex flex-col gap-12 pt-12 shadow-[0_40px_60px_20px_#300a86]">
         <div className="grid gap-12 sm:grid-cols-2">
           <div className="flex flex-col gap-4">
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
@@ -149,16 +162,12 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <p className="max-w-2xl text-base leading-8 text-white/50">
-          A developer explaining their process to an enthusiast learns something
-          in the explaining. An aspiring programmer watching someone debug in real
-          time learns more than any tutorial could teach. That exchange is the
-          point.
-        </p>
+
       </FadeIn>
+      </div>
 
       {/* What We Are Not */}
-      <FadeIn className="grid gap-8 rounded-2xl border border-[#0f005c] bg-[#1a0660]/40 p-10 sm:grid-cols-2">
+      <FadeIn className="mx-auto max-w-3xl flex flex-col gap-8 rounded-2xl border border-[#0f005c] bg-[#1a0660]/40 p-10">
         <div className="flex flex-col gap-4">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
             Honest
@@ -168,8 +177,8 @@ export default function AboutPage() {
         <p className="self-center text-base leading-8 text-white/60">
           Valarx is not a bootcamp with a certificate at the end. It is not a
           platform with a finish line. Progress here is real, which means it is
-          sometimes slow. That is fine. We would rather you leave with a skill
-          you actually have than a credential you had to stretch the truth to earn.
+          sometimes slow. That is fine. We&apos;re here to leave you skills you can use,
+          not credentials you have to stretch the truth to earn.
         </p>
       </FadeIn>
 

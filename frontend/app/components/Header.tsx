@@ -18,7 +18,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full overflow-hidden bg-[#300a86]/95 backdrop-blur">
-      <nav className="relative flex w-full min-h-16 items-center px-6 pb-0 pt-4">
+      <nav className="relative flex w-full min-h-24 items-center px-6">
         {/* Logo — pinned left, hidden on small screens */}
         <Link href="/" className="hidden sm:flex items-center">
           <Image

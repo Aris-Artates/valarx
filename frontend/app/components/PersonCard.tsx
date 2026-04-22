@@ -40,7 +40,13 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
       );
     default:
       return (
-        <svg className={cls} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <svg
+          className={cls}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
           <circle cx="12" cy="12" r="10" />
           <line x1="2" y1="12" x2="22" y2="12" />
           <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -57,56 +63,86 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
     .slice(0, 2)
     .toUpperCase();
 
-  const avatarSize = size === "lg" ? "h-24 w-24" : "h-16 w-16";
-  const avatarText = size === "lg" ? "text-2xl" : "text-lg";
-  const ring = size === "lg" ? "ring-4" : "ring-2";
+  const avatarText = size === "lg" ? "" : "text-lg";
 
   return (
-    <>
-      {person.photo ? (
-        <Image
-          src={person.photo}
-          alt={person.name}
-          width={size === "lg" ? 96 : 64}
-          height={size === "lg" ? 96 : 64}
-          className={`${avatarSize} rounded-full object-cover ${ring} ring-[#a7ff04]/30`}
-        />
-      ) : (
-        <div
-          className={`flex ${avatarSize} items-center justify-center rounded-full bg-[#0f005c] ${avatarText} font-bold text-[#a7ff04]`}
+    <div className="relative flex h-full w-full flex-col">
+      {/* Full background — avatar */}
+      <div
+        className={`flex flex-2 w-full items-center justify-center bg-[#0f005c] ${avatarText} font-bold text-[#a7ff04] overflow-hidden`}
+      >
+        {person.photo ? (
+          <Image
+            src={person.photo}
+            alt={person.name}
+            width={size === "lg" ? 96 : 64}
+            height={size === "lg" ? 96 : 64}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span style={size === "lg" ? { fontSize: "6vh" } : undefined}>
+            {initials}
+          </span>
+        )}
+      </div>
+      <div className="flex-1" />
+
+      {/* Floating text overlay */}
+      <div
+        className={
+          size === "lg"
+            ? "absolute bottom-0 left-0 flex flex-col items-start text-left bg-linear-to-b from-[#230761]/90 to-transparent"
+            : "absolute bottom-0 inset-x-0 flex flex-col items-center justify-end text-center bg-linear-to-t from-[#230761]/90 to-transparent"
+        }
+        style={
+          size === "lg"
+            ? { padding: "1vh 1.5vh", gap: "0.1vh" }
+            : { padding: "12px 8px 6px", gap: "2px" }
+        }
+      >
+        <p
+          className="font-semibold leading-tight text-white whitespace-nowrap"
+          style={{ fontSize: size === "lg" ? "1.8vh" : "9px" }}
         >
-          {initials}
-        </div>
-      )}
-      <div>
-        <p className={`font-semibold text-white ${size === "lg" ? "text-lg" : ""}`}>
           {person.name}
         </p>
-        <p className={`mt-0.5 text-white/50 ${size === "lg" ? "text-sm" : "text-xs"}`}>
+        <p
+          className="w-full truncate text-white/70 leading-none"
+          style={{ fontSize: size === "lg" ? "1.2vh" : "8px" }}
+        >
           {person.title}
         </p>
+        {person.socials && person.socials.length > 0 && (
+          <div
+            className="flex gap-2"
+            style={{ marginTop: size === "lg" ? "0.5vh" : "2px" }}
+          >
+            {person.socials.map((s) => (
+              <a
+                key={s.platform}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-white/40 transition-colors hover:text-[#a7ff04]"
+              >
+                <SocialIcon platform={s.platform} />
+              </a>
+            ))}
+          </div>
+        )}
       </div>
-      {person.socials && person.socials.length > 0 && (
-        <div className="flex gap-3">
-          {person.socials.map((s) => (
-            <a
-              key={s.platform}
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-white/40 transition-colors hover:text-[#a7ff04]"
-            >
-              <SocialIcon platform={s.platform} />
-            </a>
-          ))}
-        </div>
-      )}
-    </>
+    </div>
   );
 }
 
-function ExpandedCard({ person, onClose }: { person: Person; onClose: () => void }) {
+function ExpandedCard({
+  person,
+  onClose,
+}: {
+  person: Person;
+  onClose: () => void;
+}) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState("rotateX(0deg) rotateY(0deg)");
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
@@ -121,7 +157,9 @@ function ExpandedCard({ person, onClose }: { person: Person; onClose: () => void
     const dy = (e.clientY - cy) / (rect.height / 2);
     const rotX = (-dy * 18).toFixed(2);
     const rotY = (dx * 18).toFixed(2);
-    setTransform(`rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.04,1.04,1.04)`);
+    setTransform(
+      `rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.04,1.04,1.04)`,
+    );
     setGlare({
       x: ((e.clientX - rect.left) / rect.width) * 100,
       y: ((e.clientY - rect.top) / rect.height) * 100,
@@ -156,23 +194,29 @@ function ExpandedCard({ person, onClose }: { person: Person; onClose: () => void
             transform,
             transition: "transform 0.12s ease-out",
             transformStyle: "preserve-3d",
+            boxShadow: "0 3vh 6vh -1.5vh #0f005c",
           }}
-          className="relative flex w-56 flex-col items-center gap-4 rounded-2xl border border-[#a7ff04]/20 bg-[#230761] p-8 text-center shadow-2xl shadow-[#0f005c]"
+          className="relative flex h-[50vh] aspect-5/7 flex-col items-center bg-[#230761] text-center overflow-hidden"
         >
+          <CardContent person={person} size="lg" />
           {/* Glare overlay */}
           <div
-            className="pointer-events-none absolute inset-0 rounded-2xl"
+            className="pointer-events-none absolute inset-0"
             style={{
               background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(167,255,4,${glare.opacity}) 0%, transparent 70%)`,
               transition: "opacity 0.12s ease-out",
             }}
           />
-          <CardContent person={person} size="lg" />
         </div>
       </div>
 
       {/* Hint */}
-      <p className="absolute bottom-8 text-xs text-white/30">Click anywhere to go back</p>
+      <p
+        className="absolute bottom-8 text-white/30"
+        style={{ fontSize: "clamp(8px, 1.5vh, 12px)" }}
+      >
+        Click anywhere to go back
+      </p>
     </div>,
     document.body,
   );
@@ -185,12 +229,15 @@ export default function PersonCard({ person }: { person: Person }) {
     <>
       <div
         onClick={() => setExpanded(true)}
-        className="flex cursor-pointer flex-col items-center gap-3 rounded-xl border border-[#0f005c] bg-[#230761]/80 p-5 text-center transition-colors hover:border-[#a7ff04]/20 hover:bg-[#230761]"
+        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-[#230761] text-center transition-colors overflow-hidden p-0"
+        style={{ boxShadow: "0 0 0 1px rgba(167,255,4,0.2)" }}
       >
         <CardContent person={person} size="sm" />
       </div>
 
-      {expanded && <ExpandedCard person={person} onClose={() => setExpanded(false)} />}
+      {expanded && (
+        <ExpandedCard person={person} onClose={() => setExpanded(false)} />
+      )}
     </>
   );
 }

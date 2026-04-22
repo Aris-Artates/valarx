@@ -143,7 +143,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </h3>
             <div className="flex flex-wrap gap-4">
               {event.partners.map((person) => (
-                <div key={person.name} className="w-40">
+                <div key={person.name} className="w-40 h-40">
                   <PersonCard person={person} />
                 </div>
               ))}
@@ -159,7 +159,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </h3>
             <div className="flex flex-wrap gap-4">
               {event.speakers.map((person, i) => (
-                <div key={`${person.name}-${i}`} className="w-40">
+                <div key={`${person.name}-${i}`} className="w-40 h-40">
                   <PersonCard person={person} />
                 </div>
               ))}
@@ -175,7 +175,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             </h3>
             <div className="flex flex-wrap gap-4">
               {event.organizers.map((person, i) => (
-                <div key={`${person.name}-${i}`} className="w-40">
+                <div key={`${person.name}-${i}`} className="w-40 h-40">
                   <PersonCard person={person} />
                 </div>
               ))}
