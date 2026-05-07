@@ -36,7 +36,17 @@ export interface Event {
   lumaUrl?: string;
 }
 
-export const events: Event[] = [
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+export function isEventPast(dateStr: string): boolean {
+  const [month, year] = dateStr.split(', ');
+  const monthIndex = MONTHS.indexOf(month);
+  if (monthIndex === -1 || !year) return false;
+  const lastDayOfMonth = new Date(parseInt(year), monthIndex + 1, 0);
+  return lastDayOfMonth < new Date();
+}
+
+export const staticEvents: Event[] = [
   {
     id: '1',
     title: 'Lua Fundamentals 2026: From Syntax to Script',
@@ -44,18 +54,21 @@ export const events: Event[] = [
     month: 'April',
     type: 'Online Seminar / Technical Workshop',
     brief: 'A two-hour technical workshop on Lua scripting, hosted in partnership with DICT Region VIII.',
-    description:
-      'An online seminar and technical workshop covering Lua syntax basics through to real-world scripting integration. Organized by Aris L. Artates Jr. in partnership with DICT Region VIII.',
+    description: 'An online seminar and technical workshop covering Lua syntax basics through to real-world scripting integration. Organized by Aris L. Artates Jr. in partnership with DICT Region VIII.',
     location: 'Zoom (Online)',
     organizers: [
-      { name: 'Aris L. Artates Jr.', title: 'Event Organizer' },
-      { name: 'TBA', title: 'To Be Announced' },
+      { name: 'Aris L. Artates Jr.',    title: 'Developer' },
+      { name: 'Ronald Arjay Cinco',     title: 'AMA Computer Science Undergrad',      photo: '/photos/Arjay.jpg' },
+      { name: 'Zachary James Zimmerman',title: 'AMA Computer Science Undergrad',      photo: '/photos/zachary.jpg' },
+      { name: 'Gian Tan',               title: 'AMA Computer Engineering Undergrad' },
+      { name: 'Jerecho Portillo',       title: 'AMA Information Technology Undergrad',photo: '/photos/Jerecho.png' },
     ],
     speakers: [
-      { name: 'TBA', title: 'To Be Announced' },
+      { name: 'Claire P. Fernandez', title: 'IT Officer, DICT Regional Office VIII', photo: '/photos/Claire.png' },
+      { name: 'Felix Leo Flores',    title: 'Fullstack Developer',                   photo: '/photos/Felix.jpg' },
     ],
     partners: [
-      { name: 'DICT Region VIII', title: 'Department of Information and Communications Technology' },
+      { name: 'DICT Region VIII', title: 'Department of Information and Communications Technology', photo: '/photos/dict.png' },
     ],
     capacity: 300,
     duration: '2 hours and 20 minutes',
@@ -73,3 +86,4 @@ export const events: Event[] = [
     lumaUrl: 'https://luma.com/embed/event/evt-RmEy6gjQwHyIKtF/simple',
   },
 ];
+

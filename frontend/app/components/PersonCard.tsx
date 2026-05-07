@@ -67,17 +67,16 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
 
   return (
     <div className="relative flex h-full w-full flex-col">
-      {/* Full background — avatar */}
+      {/* Top 2/3 — photo or initials */}
       <div
-        className={`flex flex-2 w-full items-center justify-center bg-[#0f005c] ${avatarText} font-bold text-[#a7ff04] overflow-hidden`}
+        className={`relative flex flex-2 w-full items-center justify-center bg-[#0f005c] ${avatarText} font-bold text-[#a7ff04] overflow-hidden`}
       >
         {person.photo ? (
           <Image
             src={person.photo}
             alt={person.name}
-            width={size === "lg" ? 96 : 64}
-            height={size === "lg" ? 96 : 64}
-            className="h-full w-full object-cover"
+            fill
+            className={size === "sm" ? "object-contain object-top" : "object-cover object-top"}
           />
         ) : (
           <span style={size === "lg" ? { fontSize: "6vh" } : undefined}>
@@ -87,7 +86,7 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
       </div>
       <div className="flex-1" />
 
-      {/* Floating text overlay */}
+      {/* Name / title overlay */}
       <div
         className={
           size === "lg"

@@ -1,14 +1,27 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { notFound, useParams } from 'next/navigation';
 import Link from 'next/link';
-import { events } from '@/app/data/events';
+import { Event } from '@/app/data/events';
 import { findEventByHash } from '@/lib/eventHash';
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 export default function RegisterPage() {
   const { id } = useParams<{ id: string }>();
-  const event = findEventByHash(events, id);
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetch(`${API}/events/`)
+      .then(res => res.json())
+      .then((data: Event[]) => setEvent(findEventByHash(data, id) ?? null))
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return null;
   if (!event || !event.lumaUrl) notFound();
 
   return (

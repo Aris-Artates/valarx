@@ -18,11 +18,6 @@ export default function Home() {
           Welcome to VALARX
         </h1>
 
-        <p className="max-w-lg text-lg leading-8 text-white/60">
-          A community built for builders. Join our webinars, workshops, and summits —
-          or follow along on Discord and Facebook.
-        </p>
-
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/event"
@@ -31,7 +26,7 @@ export default function Home() {
             View Events
           </Link>
           <a
-            href="https://discord.gg/5Bq9Vu39"
+            href="https://discord.gg/c5bBxaUN7D"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-full border border-[#a7ff04]/40 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:border-[#a7ff04] hover:bg-[#230761]"

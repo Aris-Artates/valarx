@@ -1,16 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { events, Event } from '@/app/data/events';
+import { useState, useEffect } from 'react';
+import { Event, staticEvents } from '@/app/data/events';
 import TimelineContent from '@/app/components/TimelineContent';
 import EventModal from '@/app/components/EventModal';
 
+const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+
 export default function EventPage() {
+  const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  useEffect(() => {
+    fetch(`${API}/events/`)
+      .then(res => res.json())
+      .then(setEvents)
+      .catch(() => setEvents(staticEvents));
+  }, []);
 
   return (
     <div className="flex min-h-[80vh] w-full flex-col gap-2 px-8 py-12">
-      {/* Page heading */}
       <div className="mb-6 flex flex-col gap-2">
         <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
           Events

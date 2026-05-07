@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Event } from "@/app/data/events";
+import { Event, isEventPast } from "@/app/data/events";
 import { hashEventId } from "@/lib/eventHash";
 import PersonCard from "@/app/components/PersonCard";
 
@@ -62,12 +62,18 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             {event.title}
           </h2>
           {event.lumaUrl && (
-            <Link
-              href={`/event/${hashEventId(event.id)}/register`}
-              className="shrink-0 rounded-xl bg-[#a7ff04] px-6 py-2.5 text-sm font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
-            >
-              Register
-            </Link>
+            isEventPast(event.date) ? (
+              <span className="shrink-0 cursor-not-allowed rounded-xl bg-white/10 px-6 py-2.5 text-sm font-semibold text-white/30">
+                Registration Closed
+              </span>
+            ) : (
+              <Link
+                href={`/event/${hashEventId(event.id)}/register`}
+                className="shrink-0 rounded-xl bg-[#a7ff04] px-6 py-2.5 text-sm font-semibold text-[#0f005c] transition-colors hover:bg-[#91db03]"
+              >
+                Register
+              </Link>
+            )
           )}
         </div>
 

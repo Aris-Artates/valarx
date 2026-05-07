@@ -1,1 +1,10 @@
 .claude/settings.local.json
+
+# Next.js
+frontend/.env.local
+
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.env
