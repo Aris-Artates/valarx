@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Event } from '@/app/data/events';
+import { getEventSortDate } from '@/lib/eventStatus';
+import EventCard from './EventCard';
 
 interface TimelineContentProps {
   events: Event[];
@@ -14,7 +16,10 @@ type Item =
   | { kind: 'month-separator'; month: string }
   | { kind: 'event'; event: Event };
 
-function buildItems(events: Event[]): Item[] {
+function buildItems(unsorted: Event[]): Item[] {
+  // Archive reads newest-first (reverse chronological).
+  const events = [...unsorted].sort((a, b) => getEventSortDate(b) - getEventSortDate(a));
+
   // Count events per month key (e.g. "Jan 2025")
   const monthCounts: Record<string, number> = {};
   for (const event of events) {
@@ -49,7 +54,6 @@ function buildItems(events: Event[]): Item[] {
 }
 
 export default function TimelineContent({ events, activeId, onSelect }: TimelineContentProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const items = useMemo(() => buildItems(events), [events]);
   const total = items.length;
 
@@ -63,10 +67,10 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
         const DotCol = ({ children }: { children: React.ReactNode }) => (
           <div className="relative flex flex-col items-center">
             {!isFirst && (
-              <div className="absolute top-0 bottom-1/2 left-1/2 w-px -translate-x-1/2 bg-[#0f005c]" />
+              <div className="absolute top-0 bottom-1/2 left-1/2 w-px -translate-x-1/2 bg-deepest" />
             )}
             {!isLast && (
-              <div className="absolute top-1/2 bottom-0 left-1/2 w-px -translate-x-1/2 bg-[#0f005c]" />
+              <div className="absolute top-1/2 bottom-0 left-1/2 w-px -translate-x-1/2 bg-deepest" />
             )}
             {children}
           </div>
@@ -77,13 +81,10 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
           return (
             <Fragment key={`year-sep-${item.year}`}>
               <DotCol>
-                <span
-                  className="relative z-10 mt-5 h-4.5 w-4.5 rounded-full border-2 border-[#a7ff04]/60"
-                  style={{ backgroundColor: '#6b9e02' }}
-                />
+                <span className="relative z-10 mt-5 h-4.5 w-4.5 rounded-full border-2 border-accent-dim/60 bg-accent-dim" />
               </DotCol>
               <div className="flex items-center py-4">
-                <span className="text-xs font-semibold uppercase tracking-widest text-[#a7ff04]/70">
+                <span className="eyebrow tracking-widest text-accent-dim">
                   {item.year}
                 </span>
               </div>
@@ -96,10 +97,10 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
           return (
             <Fragment key={`month-sep-${item.month}-${index}`}>
               <DotCol>
-                <span className="relative z-10 mt-5 h-4 w-4 rounded-full border-2 border-[#a7ff04]/30 bg-[#300a86]" />
+                <span className="relative z-10 mt-5 h-4 w-4 rounded-full border-2 border-accent-dim/40 bg-background" />
               </DotCol>
               <div className="flex items-center py-3">
-                <span className="text-xs font-medium uppercase tracking-widest text-white/35">
+                <span className="text-xs font-medium uppercase tracking-widest text-ink/35">
                   {item.month}
                 </span>
               </div>
@@ -110,7 +111,6 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
         // ── EVENT ROW ─────────────────────────────────────────────────────
         const { event } = item;
         const isActive  = event.id === activeId;
-        const isHovered = event.id === hoveredId;
 
         return (
           <Fragment key={event.id}>
@@ -124,62 +124,26 @@ export default function TimelineContent({ events, activeId, onSelect }: Timeline
                   <span className={`
                     block rounded-full border-2 transition-all duration-200
                     ${isActive
-                      ? 'h-5 w-5 border-[#a7ff04] bg-[#a7ff04]'
-                      : 'h-4 w-4 border-white/30 bg-[#42169b] group-hover:border-[#a7ff04] group-hover:bg-[#230761]'
+                      ? 'h-5 w-5 border-accent-dim bg-accent-dim'
+                      : 'h-4 w-4 border-ink/30 bg-secondary group-hover:border-accent-dim group-hover:bg-background-dark'
                     }
                   `} />
                 </div>
-                <span className="mt-1 text-[10px] text-white/30 group-hover:text-[#a7ff04]/70">
+                <span className="mt-1 text-[10px] text-ink/30 group-hover:text-accent-dim">
                   {event.month}
                 </span>
               </button>
             </DotCol>
 
-            <button
-              onClick={() => onSelect(event)}
-              onMouseEnter={() => setHoveredId(event.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              className={`
-                my-3 w-full rounded-xl border p-5 text-left transition-all duration-200
-                ${isActive
-                  ? 'border-[#a7ff04] bg-[#230761]'
-                  : 'border-[#0f005c] bg-[#42169b] hover:border-[#a7ff04]/40 hover:bg-[#230761]'
-                }
-              `}
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-[#0f005c] px-2.5 py-0.5 text-xs font-medium text-[#a7ff04]/80">
-                      {event.type}
-                    </span>
-                    <span className="text-xs text-white/40">{event.date}</span>
-                  </div>
-                  <h3 className="mt-2 text-base font-semibold text-white">{event.title}</h3>
-
-                  <div className={`overflow-hidden transition-all duration-200 ${
-                    isHovered || isActive ? 'mt-2 max-h-24 opacity-100' : 'max-h-0 opacity-0'
-                  }`}>
-                    <p className="text-sm text-white/60">{event.brief}</p>
-                    <p className="mt-1 text-xs text-white/35">
-                      {event.location} &mdash;{' '}
-                      <span className="text-white/50">Click for full details</span>
-                    </p>
-                  </div>
-                </div>
-
-                <svg
-                  className={`mt-1 h-4 w-4 shrink-0 transition-all duration-200 ${
-                    isHovered || isActive ? 'translate-x-0 text-[#a7ff04]' : '-translate-x-1 opacity-0 text-white/30'
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </button>
+            <div className="my-3">
+              <EventCard
+                event={event}
+                status="completed"
+                variant="archived"
+                isActive={isActive}
+                onSelect={onSelect}
+              />
+            </div>
           </Fragment>
         );
       })}

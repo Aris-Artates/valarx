@@ -3,30 +3,30 @@ import StickyFadeSection from '../components/StickyFadeSection';
 
 export default function AboutPage() {
   return (
-    <div className="flex w-full flex-col px-24 py-24">
+    <div className="flex w-full flex-col px-6 py-24 sm:px-12 lg:px-24">
 
       {/* Hero */}
       <FadeIn className="flex min-h-screen flex-col items-center justify-start gap-6 mb-24 pt-24 text-center">
         <div className="flex flex-col items-center gap-6">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
             About Valarx
           </span>
-          <h1 className="whitespace-nowrap text-5xl font-bold italic leading-tight text-white">
+          <h1 className="text-3xl font-bold italic leading-tight text-ink sm:text-4xl lg:text-5xl">
             Sharing knowledge, not just storing it.
           </h1>
         </div>
-        <div className="grid grid-cols-3 gap-x-8 w-full">
+        <div className="grid w-full grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
           {/* Mission — left */}
           <StickyFadeSection>
               <div className="flex flex-col gap-4 text-left">
-                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+                <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent/60">
                   Mission
                 </span>
-                <h2 className="text-3xl font-bold text-white">
+                <h2 className="text-3xl font-bold text-ink">
                   The moment something clicks.
                 </h2>
               </div>
-              <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-white/60 w-full">
+              <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-ink/60 w-full">
                 <p>
                   There is a difference between reading about game development and
                   actually sitting down, writing a script, and watching something move
@@ -41,27 +41,27 @@ export default function AboutPage() {
           </StickyFadeSection>
 
           {/* Center */}
-          <div className="relative min-h-[200vh]">
-            <p className="text-lg leading-8 text-white/60">
+          <div className="relative lg:min-h-[200vh]">
+            <p className="text-lg leading-8 text-ink/60">
               Valarx is a community built around one idea: understanding games is just
               as rewarding as playing them. We bring together aspiring programmers,
               developers, and enthusiasts to share knowledge, build skills, and grow
               alongside each other.
             </p>
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-transparent to-[#300a86]" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-transparent to-background" />
           </div>
 
           {/* Education — right */}
           <StickyFadeSection>
-            <div className="flex flex-col gap-4 text-right">
-              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+            <div className="flex flex-col gap-4 lg:text-right">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent/60">
                 Education
               </span>
-              <h2 className="text-3xl font-bold text-white">
+              <h2 className="text-3xl font-bold text-ink">
                 How we approach learning.
               </h2>
             </div>
-            <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-white/60 w-full">
+            <div className="mt-24 flex flex-col gap-5 text-base leading-5 text-ink/60 w-full">
               <p>
                 Most people do not need another lecture. They need a reason to try.
               </p>
@@ -88,7 +88,7 @@ export default function AboutPage() {
       {/* How We Learn cards */}
       <StickyFadeSection>
         <div className="mb-24 flex flex-col gap-12">
-        <div className="grid gap-px overflow-hidden rounded-xl border border-[#0f005c] sm:grid-cols-3">
+        <div className="grid gap-px overflow-hidden rounded-xl border border-deepest sm:grid-cols-3">
           {[
             {
               number: '01',
@@ -106,10 +106,10 @@ export default function AboutPage() {
               desc: 'Small, completable projects that build real confidence and compound over time.',
             },
           ].map(({ number, title, desc }) => (
-            <div key={number} className="flex flex-col gap-4 bg-[#1a0660]/60 p-8">
-              <span className="text-2xl font-bold text-[#a7ff04]/30">{number}</span>
-              <p className="font-semibold text-white">{title}</p>
-              <p className="text-sm leading-6 text-white/50">{desc}</p>
+            <div key={number} className="flex flex-col gap-4 bg-background-dark/60 p-8">
+              <span className="text-2xl font-bold text-accent/30">{number}</span>
+              <p className="font-semibold text-ink">{title}</p>
+              <p className="text-sm leading-6 text-ink/50">{desc}</p>
             </div>
           ))}
         </div>
@@ -118,18 +118,18 @@ export default function AboutPage() {
 
       {/* Community */}
       <div className="relative">
-      <div className="-mx-24 h-px bg-[#0f005c]" />
-      <FadeIn className="mb-24 flex flex-col gap-12 pt-12 shadow-[0_40px_60px_20px_#300a86]">
+      <div className="-mx-6 h-px bg-deepest sm:-mx-12 lg:-mx-24" />
+      <FadeIn className="mb-24 flex flex-col gap-12 pt-12 shadow-hero-glow">
         <div className="grid gap-12 sm:grid-cols-2">
           <div className="flex flex-col gap-4">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent/60">
               Community
             </span>
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="text-3xl font-bold text-ink">
               Three groups. One space.
             </h2>
           </div>
-          <p className="self-end text-base leading-8 text-white/60">
+          <p className="self-end text-base leading-8 text-ink/60">
             Valarx is made up of three groups, and the value comes from how they
             overlap. These are not separate tracks. They are the same space, and
             the mixing is intentional.
@@ -153,11 +153,11 @@ export default function AboutPage() {
           ].map(({ label, desc }) => (
             <div
               key={label}
-              className="flex flex-col gap-4 rounded-xl border border-[#0f005c] bg-[#42169b]/50 p-7"
+              className="flex flex-col gap-4 rounded-xl border border-deepest bg-secondary/50 p-7"
             >
-              <div className="h-px w-8 bg-[#a7ff04]" />
-              <p className="font-semibold text-white">{label}</p>
-              <p className="text-sm leading-6 text-white/55">{desc}</p>
+              <div className="h-px w-8 bg-accent" />
+              <p className="font-semibold text-ink">{label}</p>
+              <p className="text-sm leading-6 text-ink/55">{desc}</p>
             </div>
           ))}
         </div>
@@ -167,14 +167,14 @@ export default function AboutPage() {
       </div>
 
       {/* What We Are Not */}
-      <FadeIn className="mx-auto max-w-3xl flex flex-col gap-8 rounded-2xl border border-[#0f005c] bg-[#1a0660]/40 p-10">
+      <FadeIn className="mx-auto max-w-3xl flex flex-col gap-8 rounded-2xl border border-deepest bg-background-dark/40 p-10">
         <div className="flex flex-col gap-4">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#a7ff04]/60">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent/60">
             Honest
           </span>
-          <h2 className="text-2xl font-bold text-white">What we are not.</h2>
+          <h2 className="text-2xl font-bold text-ink">What we are not.</h2>
         </div>
-        <p className="self-center text-base leading-8 text-white/60">
+        <p className="self-center text-base leading-8 text-ink/60">
           Valarx is not a bootcamp with a certificate at the end. It is not a
           platform with a finish line. Progress here is real, which means it is
           sometimes slow. That is fine. We&apos;re here to leave you skills you can use,

@@ -36,7 +36,7 @@ export default function StickyFadeSection({ children, className = '' }: Props) {
   return (
     <div ref={wrapperRef} className="flex flex-col">
       <div
-        className={`sticky top-36 flex flex-col bg-[#1a0660]/60 rounded-xl p-12 transition-opacity duration-100 ${className}`}
+        className={`sticky top-36 flex flex-col bg-background-dark/60 rounded-xl p-6 sm:p-12 transition-opacity duration-100 ${className}`}
         style={{ opacity }}
       >
         {children}

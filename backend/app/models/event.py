@@ -22,6 +22,10 @@ class Person(BaseModel):
 class EventCreate(BaseModel):
     title: str
     date: str
+    # ISO dates ("YYYY-MM-DD"); optional so existing clients keep working.
+    # Enables precise status detection (upcoming/ongoing/completed) on the frontend.
+    startDate: Optional[str] = None
+    endDate: Optional[str] = None
     month: str
     type: str
     brief: str

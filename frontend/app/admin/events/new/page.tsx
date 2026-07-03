@@ -33,6 +33,8 @@ export default function NewEventPage() {
       const body = {
         title:       form.get('title'),
         date:        form.get('date'),
+        startDate:   form.get('startDate') || undefined,
+        endDate:     form.get('endDate') || undefined,
         month:       form.get('month'),
         type:        form.get('type'),
         brief:       form.get('brief'),
@@ -91,6 +93,8 @@ export default function NewEventPage() {
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {field('Title', 'title', 'text', true)}
         {field('Date (e.g. April, 2026)', 'date', 'text', true)}
+        {field('Start date (enables countdown + live status)', 'startDate', 'date')}
+        {field('End date (defaults to end of start day)', 'endDate', 'date')}
         {field('Month', 'month', 'text', true)}
         {field('Type', 'type', 'text', true)}
         {field('Brief', 'brief', 'text', true)}

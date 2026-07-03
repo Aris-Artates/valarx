@@ -69,7 +69,7 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
     <div className="relative flex h-full w-full flex-col">
       {/* Top 2/3 — photo or initials */}
       <div
-        className={`relative flex flex-2 w-full items-center justify-center bg-[#0f005c] ${avatarText} font-bold text-[#a7ff04] overflow-hidden`}
+        className={`relative flex flex-2 w-full items-center justify-center bg-deepest ${avatarText} font-bold text-accent overflow-hidden`}
       >
         {person.photo ? (
           <Image
@@ -90,8 +90,8 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
       <div
         className={
           size === "lg"
-            ? "absolute bottom-0 left-0 flex flex-col items-start text-left bg-linear-to-b from-[#230761]/90 to-transparent"
-            : "absolute bottom-0 inset-x-0 flex flex-col items-center justify-end text-center bg-linear-to-t from-[#230761]/90 to-transparent"
+            ? "absolute bottom-0 left-0 flex flex-col items-start text-left bg-linear-to-b from-background-dark/90 to-transparent"
+            : "absolute bottom-0 inset-x-0 flex flex-col items-center justify-end text-center bg-linear-to-t from-background-dark/90 to-transparent"
         }
         style={
           size === "lg"
@@ -100,13 +100,13 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
         }
       >
         <p
-          className="font-semibold leading-tight text-white whitespace-nowrap"
+          className="font-semibold leading-tight text-ink whitespace-nowrap"
           style={{ fontSize: size === "lg" ? "1.8vh" : "9px" }}
         >
           {person.name}
         </p>
         <p
-          className="w-full truncate text-white/70 leading-none"
+          className="w-full truncate text-ink/70 leading-none"
           style={{ fontSize: size === "lg" ? "1.2vh" : "8px" }}
         >
           {person.title}
@@ -123,7 +123,7 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="text-white/40 transition-colors hover:text-[#a7ff04]"
+                className="text-ink/40 transition-colors hover:text-accent"
               >
                 <SocialIcon platform={s.platform} />
               </a>
@@ -177,7 +177,7 @@ function ExpandedCard({
       onClick={onClose}
     >
       {/* Blur backdrop */}
-      <div className="absolute inset-0 bg-[#0f005c]/60 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-deepest/60 backdrop-blur-md" />
 
       {/* 3D card container */}
       <div
@@ -193,16 +193,15 @@ function ExpandedCard({
             transform,
             transition: "transform 0.12s ease-out",
             transformStyle: "preserve-3d",
-            boxShadow: "0 3vh 6vh -1.5vh #0f005c",
           }}
-          className="relative flex h-[50vh] aspect-5/7 flex-col items-center bg-[#230761] text-center overflow-hidden"
+          className="relative flex h-[50vh] aspect-5/7 flex-col items-center bg-background-dark text-center overflow-hidden shadow-card-lift"
         >
           <CardContent person={person} size="lg" />
           {/* Glare overlay */}
           <div
             className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(167,255,4,${glare.opacity}) 0%, transparent 70%)`,
+              background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, color-mix(in srgb, var(--accent) ${glare.opacity * 100}%, transparent) 0%, transparent 70%)`,
               transition: "opacity 0.12s ease-out",
             }}
           />
@@ -211,7 +210,7 @@ function ExpandedCard({
 
       {/* Hint */}
       <p
-        className="absolute bottom-8 text-white/30"
+        className="absolute bottom-8 text-ink/30"
         style={{ fontSize: "clamp(8px, 1.5vh, 12px)" }}
       >
         Click anywhere to go back
@@ -228,8 +227,7 @@ export default function PersonCard({ person }: { person: Person }) {
     <>
       <div
         onClick={() => setExpanded(true)}
-        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-[#230761] text-center transition-colors overflow-hidden p-0"
-        style={{ boxShadow: "0 0 0 1px rgba(167,255,4,0.2)" }}
+        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-background-dark text-center transition-colors overflow-hidden p-0 ring-1 ring-accent/20"
       >
         <CardContent person={person} size="sm" />
       </div>

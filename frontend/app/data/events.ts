@@ -21,6 +21,10 @@ export interface Event {
   id: string;
   title: string;
   date: string;
+  /** ISO date ("YYYY-MM-DD" or full datetime). Enables precise status detection + countdowns. */
+  startDate?: string;
+  /** ISO date. Defaults to end of startDate's day when omitted. */
+  endDate?: string;
   month: string;
   type: string;
   brief: string;
@@ -34,16 +38,6 @@ export interface Event {
   timeframe?: string;
   schedule?: ScheduleItem[];
   lumaUrl?: string;
-}
-
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-export function isEventPast(dateStr: string): boolean {
-  const [month, year] = dateStr.split(', ');
-  const monthIndex = MONTHS.indexOf(month);
-  if (monthIndex === -1 || !year) return false;
-  const lastDayOfMonth = new Date(parseInt(year), monthIndex + 1, 0);
-  return lastDayOfMonth < new Date();
 }
 
 export const staticEvents: Event[] = [

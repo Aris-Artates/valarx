@@ -30,13 +30,13 @@ export default function ConnectPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 py-20">
       <div className="flex flex-col gap-4">
-        <span className="text-sm font-medium uppercase tracking-widest text-[#a7ff04]/70">
-          Connect
+        <span className="font-mono text-sm font-medium uppercase tracking-widest text-accent/70">
+          &gt; Connect
         </span>
-        <h1 className="text-4xl font-bold text-white">Lorem ipsum dolor sit amet</h1>
-        <p className="max-w-xl text-lg text-white/60">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua.
+        <h1 className="text-3xl font-bold text-ink sm:text-4xl">Find the party</h1>
+        <p className="max-w-xl text-lg text-ink/60">
+          VALARX lives across a few channels. Announcements, event registrations,
+          and everyday chat all flow through these &mdash; pick whichever fits you.
         </p>
       </div>
 
@@ -47,13 +47,14 @@ export default function ConnectPage() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-between rounded-xl border border-[#0f005c] bg-[#42169b] p-6 transition-colors hover:border-[#a7ff04]/50 hover:bg-[#230761]"
+            aria-label={`${label} — ${cta} (opens in a new tab)`}
+            className="btn-menu group flex flex-col items-start justify-between gap-4 rounded-xl border border-deepest bg-secondary p-6 sm:flex-row sm:items-center hover:border-accent/50 hover:bg-background-dark"
           >
             <div className="flex flex-col gap-1">
-              <p className="font-semibold text-white">{label}</p>
-              <p className="text-sm text-white/60">{description}</p>
+              <p className="font-semibold text-ink">{label}</p>
+              <p className="text-sm text-ink/60">{description}</p>
             </div>
-            <span className="ml-4 shrink-0 rounded-full border border-[#a7ff04]/40 px-4 py-1.5 text-sm font-medium text-white/80 transition-colors group-hover:border-[#a7ff04] group-hover:text-[#a7ff04]">
+            <span className="shrink-0 rounded-full border border-accent/40 px-4 py-1.5 text-sm font-medium text-ink/80 transition-colors group-hover:border-accent group-hover:text-accent sm:ml-4">
               {cta}
             </span>
           </a>

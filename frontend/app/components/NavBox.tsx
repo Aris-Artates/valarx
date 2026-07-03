@@ -11,16 +11,16 @@ export default function NavBox({ children, isActive }: NavBoxProps) {
       className={`
         group relative z-1
         rounded-t-2xl overflow-hidden
-        border border-[#0f005c]
-        bg-[#300a86]
+        border border-deepest
+        bg-background
         p-0
-        shadow-[0_0_10px_rgba(0,0,0,0.25)]
+        shadow-panel
         transition-[padding,box-shadow] duration-200 ease-out
-        hover:shadow-[0_0_14px_rgba(167,255,4,0.2)]
+        hover:shadow-glow
         hover:z-10
         ${isActive
-          ? 'border-b-[#300a86]'
-          : 'border-b-[#0f005c] hover:bg-[#a7ff04] hover:border-[#a7ff04]'
+          ? 'border-b-background'
+          : 'border-b-deepest hover:bg-accent hover:border-accent'
         }
       `}
     >

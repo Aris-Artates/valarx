@@ -21,7 +21,17 @@ export default function RegisterPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div role="status" aria-busy="true" className="flex min-h-screen flex-col px-8 py-10">
+        <span className="sr-only">Loading registration&hellip;</span>
+        <p aria-hidden="true" className="mb-6 font-mono text-xs text-accent/60">
+          &gt; loading registration<span className="animate-pulse">&#9612;</span>
+        </p>
+        <div aria-hidden="true" className="w-full flex-1 animate-pulse rounded-2xl border border-deepest bg-secondary/40" style={{ minHeight: '50vh' }} />
+      </div>
+    );
+  }
   if (!event || !event.lumaUrl) notFound();
 
   return (
@@ -29,12 +39,12 @@ export default function RegisterPage() {
       <div className="mb-6 flex items-center gap-4">
         <Link
           href="/event"
-          className="text-sm text-white/50 transition-colors hover:text-white"
+          className="text-sm text-ink/50 transition-colors hover:text-ink"
         >
           ← Back to events
         </Link>
-        <span className="text-white/20">·</span>
-        <span className="text-sm text-white/60">{event.title}</span>
+        <span className="text-ink/20">·</span>
+        <span className="text-sm text-ink/60">{event.title}</span>
       </div>
 
       <iframe

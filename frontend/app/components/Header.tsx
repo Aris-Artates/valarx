@@ -17,8 +17,8 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full overflow-hidden bg-[#300a86]/95 backdrop-blur">
-      <nav className="relative flex w-full min-h-24 items-center px-6">
+    <header className="sticky top-0 z-50 w-full overflow-hidden bg-background/95 backdrop-blur">
+      <nav aria-label="Primary" className="relative flex w-full min-h-24 items-center px-6">
         {/* Logo — pinned left, hidden on small screens */}
         <Link href="/" className="hidden sm:flex items-center">
           <Image
@@ -32,7 +32,7 @@ export default function Header() {
         </Link>
 
         {/* Fake border — sits behind NavBoxes, covered by active tab's bg */}
-        <div className="absolute bottom-0 inset-x-0 h-px bg-[#0f005c] z-0" />
+        <div className="absolute bottom-0 inset-x-0 h-px bg-deepest z-0" />
 
         {/* Nav links — one NavBox per link */}
         <ul className="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-end gap-2">
@@ -41,10 +41,11 @@ export default function Header() {
               <NavBox isActive={pathname === href}>
                 <Link
                   href={href}
+                  aria-current={pathname === href ? 'page' : undefined}
                   className={`block px-7 py-3 text-sm sm:text-base font-medium transition-[padding,color] duration-200 ease-out group-hover:px-10 group-hover:py-4 ${
                     pathname === href
-                      ? "text-white/70 group-hover:text-[#a7ff04]"
-                      : "text-white/70 group-hover:text-violet-700"
+                      ? "text-ink/70 group-hover:text-accent"
+                      : "text-ink/70 group-hover:text-violet-700"
                   }`}
                 >
                   {label}
