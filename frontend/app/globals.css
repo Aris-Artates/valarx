@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "./theme.css";
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--text);
@@ -13,17 +17,38 @@ body {
   outline-offset: 2px;
 }
 
+/*
+ * Main interaction rule: every interactive element eases in on hover and
+ * eases back out on leave. Element-level selector, so any per-component
+ * Tailwind transition classes still win.
+ */
+a,
+button,
+[role="button"],
+input,
+textarea,
+select,
+summary {
+  transition:
+    color var(--duration-base) var(--ease-smooth),
+    background-color var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    opacity var(--duration-base) var(--ease-smooth),
+    transform var(--duration-base) var(--ease-smooth);
+}
+
 /* Small uppercase section label used across pages ("EVENTS", "OUR MISSION", ...) */
 @utility eyebrow {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   font-size: var(--eyebrow-size);
   font-weight: var(--eyebrow-weight);
   letter-spacing: var(--eyebrow-tracking);
   text-transform: uppercase;
 }
 
-/* Main-menu button: hover lift + glow, pressed scale — game-menu feel */
-@utility btn-menu {
+/* Interactive lift: hover raise + soft shadow, pressed scale */
+@utility btn-lift {
   transition:
     transform var(--duration-base) var(--ease-smooth),
     box-shadow var(--duration-base) var(--ease-smooth),
@@ -33,7 +58,7 @@ body {
 
   &:hover {
     transform: translateY(-1px);
-    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   }
 
   &:active {
@@ -41,16 +66,47 @@ body {
   }
 }
 
-/* Layered hero backdrop: soft top glow over a faint arcade grid */
-@utility bg-arcade-grid {
-  background-image:
-    radial-gradient(ellipse at top, color-mix(in srgb, var(--secondary) 45%, transparent), transparent 65%),
-    linear-gradient(color-mix(in srgb, var(--accent) 4%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--accent) 4%, transparent) 1px, transparent 1px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
+/* Hero backdrop: a single soft brand-purple tint fading from the top */
+@utility bg-brand-tint {
+  background-image: radial-gradient(
+    ellipse at top,
+    color-mix(in srgb, var(--brand) 20%, transparent),
+    transparent 65%
+  );
+}
+
+/* Skeleton block: dim fill with a shimmer sweep while content loads */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@utility skeleton {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--text) 8%, transparent),
+      transparent
+    );
+    animation: shimmer 1.4s var(--ease-smooth) infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   ::before,
   ::after {

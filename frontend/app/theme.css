@@ -3,16 +3,19 @@
  * (runs automatically via the predev/prebuild npm hooks) */
 
 :root {
-  --primary: #300a86;
-  --secondary: #42169b;
+  --primary: #111114;
+  --secondary: #1a1a1f;
   --accent: #a7ff04;
   --accent-hover: #91db03;
   --accent-dim: #6b9e02;
+  --brand: #42169b;
+  --brand-deep: #300a86;
   --background: var(--primary);
-  --background-dark: #230761;
-  --background-deepest: #0f005c;
-  --text: #ffffff;
-  --text-on-accent: var(--background-deepest);
+  --background-dark: #0c0c0e;
+  --background-deepest: #242429;
+  --text: #f5f5f7;
+  --text-on-accent: var(--background-dark);
+  --error: #ff6b6b;
   --eyebrow-size: 0.75rem;
   --eyebrow-weight: 600;
   --eyebrow-tracking: 0.1em;
@@ -27,11 +30,14 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-dim: var(--accent-dim);
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
   --color-background: var(--background);
   --color-background-dark: var(--background-dark);
   --color-deepest: var(--background-deepest);
   --color-ink: var(--text);
   --color-on-accent: var(--text-on-accent);
+  --color-error: var(--error);
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --text-display: 3.75rem;
@@ -52,12 +58,13 @@
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
   --radius-slot: 0.25rem;
-  --shadow-panel: 0 0 10px rgba(0, 0, 0, 0.25);
-  --shadow-modal: 0 25px 50px -12px var(--background-deepest);
-  --shadow-glow: 0 0 14px color-mix(in srgb, var(--accent) 20%, transparent);
-  --shadow-glow-strong: 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
-  --shadow-card-lift: 0 3vh 6vh -1.5vh var(--background-deepest);
-  --shadow-hero-glow: 0 40px 60px 20px var(--primary);
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-glow-strong: 0 8px 28px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent);
+  --shadow-card-lift: 0 16px 40px -12px rgba(0, 0, 0, 0.55);
+  --shadow-hero-glow: 0 40px 60px -30px rgba(0, 0, 0, 0.5);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-snap: cubic-bezier(0.34, 1.56, 0.64, 1);
 }

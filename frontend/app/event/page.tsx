@@ -1,22 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Event, staticEvents } from '@/app/data/events';
-import { getEventStatus } from '@/lib/eventStatus';
-import QuestBoard from '@/app/components/QuestBoard';
-import TimelineContent from '@/app/components/TimelineContent';
+import { useState, useEffect, useMemo } from 'react';
+import { Event } from '@/app/data/events';
+import { getEventStatus, pickFeaturedEvent } from '@/lib/eventStatus';
+import { getEvents, getCachedEvents } from '@/lib/eventsCache';
+import FeaturedEvent from '@/app/components/FeaturedEvent';
+import GameDevCall from '@/app/components/GameDevCall';
+import EventGrid from '@/app/components/EventGrid';
+import EventTimeline from '@/app/components/EventTimeline';
 import EventModal from '@/app/components/EventModal';
 import EventsSkeleton from '@/app/components/EventsSkeleton';
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
-
-function SectionHeader({ label, count, tone }: { label: string; count: number; tone: 'accent' | 'dim' }) {
-  const color = tone === 'accent' ? 'text-accent' : 'text-accent-dim';
-  const border = tone === 'accent' ? 'border-accent/60' : 'border-accent-dim/60';
+function SectionHeader({ label, count }: { label: string; count: number }) {
   return (
     <div className="flex items-center gap-3">
-      <h2 className={`font-mono text-sm font-semibold uppercase tracking-widest ${color}`}>{label}</h2>
-      <span className={`rounded-full border px-2 py-0.5 font-mono text-[10px] font-semibold ${border} ${color}`}>
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-ink/50">{label}</h2>
+      <span className="rounded-full border border-deepest px-2 py-0.5 text-[11px] font-semibold text-ink/40">
         {count}
       </span>
       <div className="h-px flex-1 bg-deepest" />
@@ -25,57 +24,81 @@ function SectionHeader({ label, count, tone }: { label: string; count: number; t
 }
 
 export default function EventPage() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  // Starts from the session cache — the skeleton only appears on the first
+  // visit of the session, not on every navigation back to this page.
+  const [events, setEvents] = useState<Event[] | null>(getCachedEvents);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   useEffect(() => {
-    fetch(`${API}/events/`)
-      .then(res => res.json())
-      .then(setEvents)
-      .catch(() => setEvents(staticEvents))
-      .finally(() => setLoaded(true));
-  }, []);
+    let alive = true;
+    if (events === null) {
+      getEvents().then((data) => {
+        if (alive) setEvents(data);
+      });
+    }
+    return () => {
+      alive = false;
+    };
+  }, [events]);
 
-  const active = events.filter(e => getEventStatus(e) !== 'completed');
-  const archived = events.filter(e => getEventStatus(e) === 'completed');
+  const loaded = events !== null;
+  const list = events ?? [];
+  const featured = useMemo(() => pickFeaturedEvent(list), [list]);
+  const rest = list.filter(e => e.id !== featured?.event.id);
+  const upcoming = rest.filter(e => getEventStatus(e) !== 'completed');
+  const past = rest.filter(e => getEventStatus(e) === 'completed');
 
   return (
-    <div className="flex min-h-[80vh] w-full flex-col gap-2 px-8 py-12">
-      <div className="mb-6 flex flex-col gap-2">
-        <span className="font-mono text-sm font-medium uppercase tracking-widest text-accent/70">
-          &gt; Events
-        </span>
-        <h1 className="text-4xl font-bold text-ink">VALARX Quest Log</h1>
-        <p className="text-ink/60">
-          Hover over an event for a preview. Click to see full details.
+    <div className="mx-auto flex min-h-[80vh] w-full max-w-6xl flex-col gap-8 px-6 py-16">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-4xl font-bold text-ink">Events</h1>
+        <p className="max-w-2xl text-ink/60">
+          Workshops, seminars, and community sessions &mdash; see what&apos;s coming
+          up and what we&apos;ve run before.
         </p>
       </div>
 
       {!loaded && <EventsSkeleton />}
 
-      {loaded && (
-        <>
-          <section className="mb-10 flex flex-col gap-4">
-            <SectionHeader label="Active Quests" count={active.length} tone="accent" />
-            <QuestBoard
-              events={active}
-              activeId={selectedEvent?.id ?? null}
-              onSelect={setSelectedEvent}
-            />
-          </section>
+      {loaded && !featured && (
+        <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-ink/20 px-6 py-16 text-center">
+          <p className="font-semibold text-ink/60">No events yet.</p>
+          <p className="text-sm text-ink/40">
+            New sessions are announced on Discord first &mdash; join us to hear about them early.
+          </p>
+        </div>
+      )}
 
-          {archived.length > 0 && (
-            <section className="flex flex-col gap-4">
-              <SectionHeader label="Quest Archive" count={archived.length} tone="dim" />
-              <TimelineContent
-                events={archived}
-                activeId={selectedEvent?.id ?? null}
-                onSelect={setSelectedEvent}
-              />
-            </section>
-          )}
-        </>
+      {loaded && featured && (
+        <FeaturedEvent
+          event={featured.event}
+          status={featured.status}
+          onDetails={setSelectedEvent}
+        />
+      )}
+
+      <GameDevCall />
+
+      {loaded && upcoming.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <SectionHeader label="More upcoming" count={upcoming.length} />
+          <EventGrid
+            events={upcoming}
+            activeId={selectedEvent?.id ?? null}
+            onSelect={setSelectedEvent}
+          />
+        </section>
+      )}
+
+      {loaded && past.length > 0 && (
+        <section className="flex flex-col gap-4">
+          <SectionHeader label="Past events" count={past.length} />
+          <EventTimeline
+            events={past}
+            activeId={selectedEvent?.id ?? null}
+            onSelect={setSelectedEvent}
+          />
+        </section>
       )}
 
       {selectedEvent && (

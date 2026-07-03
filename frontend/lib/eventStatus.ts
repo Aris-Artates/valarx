@@ -64,3 +64,37 @@ export function daysUntil(event: Event, now: Date = new Date()): number | null {
   if (ms <= 0) return null;
   return Math.ceil(ms / 86_400_000);
 }
+
+/** Epoch ms of the event's precise start — only when an ISO startDate exists. */
+export function getEventStartTime(event: Event): number | null {
+  if (!event.startDate) return null;
+  return parseIso(event.startDate, false).getTime();
+}
+
+/**
+ * The single most relevant event to spotlight:
+ * happening now → soonest upcoming → most recently completed.
+ */
+export function pickFeaturedEvent(
+  events: Event[],
+  now: Date = new Date(),
+): { event: Event; status: EventStatus } | null {
+  const withStatus = events.map((event) => ({
+    event,
+    status: getEventStatus(event, now),
+  }));
+
+  const soonestFirst = (a: { event: Event }, b: { event: Event }) =>
+    getEventSortDate(a.event) - getEventSortDate(b.event);
+
+  const ongoing = withStatus.filter((x) => x.status === 'ongoing').sort(soonestFirst);
+  if (ongoing.length > 0) return ongoing[0];
+
+  const upcoming = withStatus.filter((x) => x.status === 'upcoming').sort(soonestFirst);
+  if (upcoming.length > 0) return upcoming[0];
+
+  const completed = withStatus
+    .filter((x) => x.status === 'completed')
+    .sort((a, b) => getEventSortDate(b.event) - getEventSortDate(a.event));
+  return completed[0] ?? null;
+}

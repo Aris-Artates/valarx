@@ -1,3 +1,9 @@
+ > **⚠ SUPERSEDED (July 2026):** The "Neon Terminal" direction described here is retired.
+> The frontend is being remodeled to a neutral, professional community design — see
+> [`FRONTEND_REMODEL_BLUEPRINT.md`](FRONTEND_REMODEL_BLUEPRINT.md). Do not style new work
+> against this document. The token *pipeline* it describes (theme.json → generate-theme.mjs
+> → theme.css) is still current.
+
 # VALARX Design-System Prompt — "Neon Terminal"
 
 A reusable prompt for AI tools (or a brief for designers/contributors) when building or restyling

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { DISCORD_URL } from '@/app/data/site';
 
 export default function Footer() {
   return (
@@ -28,7 +29,7 @@ export default function Footer() {
             Connect
           </Link>
           <a
-            href="https://discord.gg/5Bq9Vu39"
+            href={DISCORD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-ink/40 transition-colors hover:text-accent"

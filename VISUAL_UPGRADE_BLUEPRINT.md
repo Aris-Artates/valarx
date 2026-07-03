@@ -1,3 +1,9 @@
+ > **⚠ SUPERSEDED (July 2026):** The gaming-themed visual direction in this document (quest
+> log, arcade grid, neon terminal) is retired in favor of a neutral, professional remodel —
+> see [`FRONTEND_REMODEL_BLUEPRINT.md`](FRONTEND_REMODEL_BLUEPRINT.md). The theme-token
+> infrastructure (Phases 1–2) and the event *functionality* built in Phase 3 remain current;
+> Phase 5 (inventory slots / XP) is cancelled in its themed form.
+
 # VALARX Visual Upgrade Blueprint
 
 A phase-by-phase plan for upgrading the VALARX community platform's visual identity: a dynamic

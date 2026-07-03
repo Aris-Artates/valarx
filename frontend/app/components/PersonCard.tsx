@@ -201,7 +201,7 @@ function ExpandedCard({
           <div
             className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, color-mix(in srgb, var(--accent) ${glare.opacity * 100}%, transparent) 0%, transparent 70%)`,
+              background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, color-mix(in srgb, var(--text) ${glare.opacity * 100}%, transparent) 0%, transparent 70%)`,
               transition: "opacity 0.12s ease-out",
             }}
           />
@@ -227,7 +227,7 @@ export default function PersonCard({ person }: { person: Person }) {
     <>
       <div
         onClick={() => setExpanded(true)}
-        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-background-dark text-center transition-colors overflow-hidden p-0 ring-1 ring-accent/20"
+        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-background-dark text-center transition-colors overflow-hidden p-0 ring-1 ring-deepest"
       >
         <CardContent person={person} size="sm" />
       </div>

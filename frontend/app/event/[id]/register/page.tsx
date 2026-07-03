@@ -5,30 +5,29 @@ import { notFound, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Event } from '@/app/data/events';
 import { findEventByHash } from '@/lib/eventHash';
-
-const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+import { getEvents } from '@/lib/eventsCache';
 
 export default function RegisterPage() {
   const { id } = useParams<{ id: string }>();
-  const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(true);
+  // undefined = still resolving; null = resolved but not found.
+  const [event, setEvent] = useState<Event | null | undefined>(undefined);
 
   useEffect(() => {
-    fetch(`${API}/events/`)
-      .then(res => res.json())
-      .then((data: Event[]) => setEvent(findEventByHash(data, id) ?? null))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    let alive = true;
+    getEvents().then((data) => {
+      if (alive) setEvent(findEventByHash(data, id) ?? null);
+    });
+    return () => {
+      alive = false;
+    };
   }, [id]);
 
-  if (loading) {
+  if (event === undefined) {
     return (
       <div role="status" aria-busy="true" className="flex min-h-screen flex-col px-8 py-10">
         <span className="sr-only">Loading registration&hellip;</span>
-        <p aria-hidden="true" className="mb-6 font-mono text-xs text-accent/60">
-          &gt; loading registration<span className="animate-pulse">&#9612;</span>
-        </p>
-        <div aria-hidden="true" className="w-full flex-1 animate-pulse rounded-2xl border border-deepest bg-secondary/40" style={{ minHeight: '50vh' }} />
+        <div aria-hidden="true" className="skeleton mb-6 h-4 w-48 rounded" />
+        <div aria-hidden="true" className="skeleton w-full flex-1 rounded-2xl border border-deepest" style={{ minHeight: '50vh' }} />
       </div>
     );
   }
@@ -49,8 +48,9 @@ export default function RegisterPage() {
 
       <iframe
         src={event.lumaUrl}
-        className="w-full flex-1 rounded-2xl"
-        style={{ border: '1px solid #bfcbda88', minHeight: '50vh', maxHeight: '80vh' }}
+        title={`Register for ${event.title}`}
+        className="w-full flex-1 rounded-2xl border border-deepest"
+        style={{ minHeight: '50vh', maxHeight: '80vh' }}
         allow="fullscreen; payment"
         tabIndex={0}
       />

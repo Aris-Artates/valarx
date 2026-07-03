@@ -14,14 +14,15 @@ interface EventCardProps {
 function StatusChip({ status }: { status: EventStatus }) {
   if (status === 'ongoing') {
     return (
-      <span className="animate-pulse rounded-full bg-accent px-2.5 py-0.5 font-mono text-xs font-semibold uppercase tracking-widest text-on-accent">
-        Live
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-on-accent">
+        <span aria-hidden="true" className="h-1.5 w-1.5 animate-pulse rounded-full bg-on-accent" />
+        Happening now
       </span>
     );
   }
   if (status === 'upcoming') {
     return (
-      <span className="rounded-full border border-accent/60 px-2.5 py-0.5 font-mono text-xs font-semibold uppercase tracking-widest text-accent/90">
+      <span className="rounded-full border border-accent/50 px-2.5 py-0.5 text-xs font-medium text-accent">
         Upcoming
       </span>
     );
@@ -52,32 +53,31 @@ export default function EventCard({ event, status, variant, isActive = false, on
             }`
       }`}
     >
-      {archived && (
-        <span className="absolute right-3 top-3 rotate-3 rounded-sm border border-accent-dim/60 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-widest text-accent-dim">
-          Completed
-        </span>
-      )}
-
       <div className="flex items-stretch gap-5">
-        {/* Date rail — active quests only */}
+        {/* Date rail — upcoming events only */}
         {!archived && (
           <div className="flex w-16 shrink-0 flex-col items-center justify-center gap-0.5 border-r border-deepest pr-5">
-            <span className="font-mono text-lg font-bold uppercase leading-none text-accent">{event.month.slice(0, 3)}</span>
-            <span className="font-mono text-xs text-ink/40">{year}</span>
+            <span className="text-lg font-bold uppercase leading-none text-accent">{event.month.slice(0, 3)}</span>
+            <span className="text-xs text-ink/40">{year}</span>
             {days !== null && (
-              <span className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-accent/60">
-                in {days}d
+              <span className="mt-1 text-[11px] font-medium text-ink/50">
+                in {days} {days === 1 ? 'day' : 'days'}
               </span>
             )}
           </div>
         )}
 
         <div className="min-w-0 flex-1">
-          <div className={`flex flex-wrap items-center gap-2 ${archived ? 'pr-24' : ''}`}>
+          <div className="flex flex-wrap items-center gap-2">
             {!archived && <StatusChip status={status} />}
+            {archived && (
+              <span className="rounded-full border border-deepest px-2.5 py-0.5 text-xs font-medium text-ink/40">
+                Completed
+              </span>
+            )}
             <span
               className={`rounded-full bg-deepest px-2.5 py-0.5 text-xs font-medium ${
-                archived ? 'text-accent-dim' : 'text-accent/80'
+                archived ? 'text-ink/40' : 'text-ink/60'
               }`}
             >
               {event.type}

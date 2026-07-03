@@ -5,7 +5,7 @@ import { Event } from '@/app/data/events';
 import { getEventSortDate } from '@/lib/eventStatus';
 import EventCard from './EventCard';
 
-interface TimelineContentProps {
+interface EventTimelineProps {
   events: Event[];
   activeId: string | null;
   onSelect: (event: Event) => void;
@@ -53,7 +53,7 @@ function buildItems(unsorted: Event[]): Item[] {
   return items;
 }
 
-export default function TimelineContent({ events, activeId, onSelect }: TimelineContentProps) {
+export default function EventTimeline({ events, activeId, onSelect }: EventTimelineProps) {
   const items = useMemo(() => buildItems(events), [events]);
   const total = items.length;
 

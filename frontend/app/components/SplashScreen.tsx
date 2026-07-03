@@ -1,74 +1,69 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-// How long the bobbing phase lasts before the exit begins.
-const SHOW_MS = 2000;
+// Timeline: logo eases in (0–700ms), accent bar fills (300–1400ms),
+// overlay fades out (1500–2000ms), unmount at 2000ms.
+const EXIT_AT_MS = 1500;
+const REMOVE_AT_MS = 2000;
 
-// Must cover the full exit sequence:
-//   logo slide  → 0.6s  (starts at 0ms)
-//   overlay fade → 0.4s  (starts at 0.55s delay)  →  last frame at 0.95s
-// Add 50ms buffer → 1000ms total exit window.
-const REMOVE_MS = SHOW_MS + 1000;
+// Shown once per browser session — repeat visits skip straight to content.
+const SESSION_KEY = 'valarx-splash-shown';
 
 export default function SplashScreen() {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isFading, setIsFading] = useState(false);
+  const [phase, setPhase] = useState<'enter' | 'exit' | 'done'>('enter');
 
   useEffect(() => {
-    // Timer 1 — triggers exit animations.
-    const fadeTimer = setTimeout(() => setIsFading(true), SHOW_MS);
-    // Timer 2 — unmounts the component after animations complete.
-    const removeTimer = setTimeout(() => setIsVisible(false), REMOVE_MS);
+    const skip =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      sessionStorage.getItem(SESSION_KEY) !== null;
 
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(removeTimer);
-    };
+    const timers: number[] = [];
+    if (skip) {
+      timers.push(window.setTimeout(() => setPhase('done'), 0));
+    } else {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      timers.push(window.setTimeout(() => setPhase('exit'), EXIT_AT_MS));
+      timers.push(window.setTimeout(() => setPhase('done'), REMOVE_AT_MS));
+    }
+    return () => timers.forEach(clearTimeout);
   }, []);
 
-  if (!isVisible) return null;
+  if (phase === 'done') return null;
 
   return (
-    <>
+    <div
+      aria-hidden="true"
+      className={`fixed inset-0 z-100 flex items-center justify-center bg-background transition-opacity duration-500 ${
+        phase === 'exit' ? 'pointer-events-none opacity-0' : 'opacity-100'
+      }`}
+    >
       <style>{`
-        @keyframes splash-bob {
-          0%, 100% { transform: translateY(0px);   animation-timing-function: ease-in-out; }
-          50%       { transform: translateY(-24px); animation-timing-function: ease-in-out; }
+        .splash-logo {
+          animation: splash-in 0.7s var(--ease-smooth) both;
         }
-        @keyframes splash-exit-logo {
-          from { transform: translateY(0); }
-          to   { transform: translateY(120vh); }
+        .splash-bar {
+          transform: scaleX(0);
+          transform-origin: left;
+          animation: splash-fill 1.1s var(--ease-smooth) 0.3s both;
+        }
+        @keyframes splash-in {
+          from { opacity: 0; transform: translateY(14px) scale(0.94); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes splash-fill {
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
         }
       `}</style>
 
-      {/* Overlay — CSS transition handles the fade (no animationend race condition) */}
-      <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 9999,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#000',
-          pointerEvents: isFading ? 'none' : 'auto',
-          opacity: isFading ? 0 : 1,
-          transition: 'opacity 0.4s ease-in 0.55s',
-        }}
-      >
-        {/* Logo — switches from bob to slide-down when isFading */}
-        <div
-          style={{
-            animation: isFading
-              ? 'splash-exit-logo 0.6s ease-in forwards'
-              : 'splash-bob 1.5s ease-in-out infinite',
-          }}
-        >
-          <Image src="/valarx.png" alt="VALARX" width={160} height={40} priority />
+      <div className="splash-logo flex flex-col items-center gap-6">
+        <Image src="/valarx.png" alt="" width={120} height={123} priority />
+        <div className="h-0.5 w-32 overflow-hidden rounded-full bg-deepest">
+          <div className="splash-bar h-full w-full bg-accent" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

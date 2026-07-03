@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import NavBox from "./NavBox";
+import { DISCORD_URL } from "@/app/data/site";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -15,45 +16,121 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full overflow-hidden bg-background/95 backdrop-blur">
-      <nav aria-label="Primary" className="relative flex w-full min-h-24 items-center px-6">
-        {/* Logo — pinned left, hidden on small screens */}
-        <Link href="/" className="hidden sm:flex items-center">
-          <Image
-            src="/valarx.png"
-            alt="VALARX"
-            width={64}
-            height={16}
-            priority
-            className="object-contain"
-          />
-        </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-deepest bg-background/90 backdrop-blur">
+      <nav aria-label="Primary" className="mx-auto w-full max-w-6xl px-6">
+        <div className="flex h-16 items-center justify-between">
+          <Link href="/" aria-label="VALARX home" onClick={closeMenu} className="flex items-center gap-2.5">
+            <Image
+              src="/valarx.png"
+              alt=""
+              width={36}
+              height={37}
+              priority
+              className="object-contain"
+            />
+            <span className="text-sm font-semibold tracking-[0.18em] text-ink">
+              VALARX
+            </span>
+          </Link>
 
-        {/* Fake border — sits behind NavBoxes, covered by active tab's bg */}
-        <div className="absolute bottom-0 inset-x-0 h-px bg-deepest z-0" />
-
-        {/* Nav links — one NavBox per link */}
-        <ul className="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-end gap-2">
-          {navLinks.map(({ href, label }) => (
-            <li key={href}>
-              <NavBox isActive={pathname === href}>
-                <Link
-                  href={href}
-                  aria-current={pathname === href ? 'page' : undefined}
-                  className={`block px-7 py-3 text-sm sm:text-base font-medium transition-[padding,color] duration-200 ease-out group-hover:px-10 group-hover:py-4 ${
-                    pathname === href
-                      ? "text-ink/70 group-hover:text-accent"
-                      : "text-ink/70 group-hover:text-violet-700"
-                  }`}
-                >
-                  {label}
-                </Link>
-              </NavBox>
+          {/* Desktop links */}
+          <ul className="hidden items-center gap-8 sm:flex">
+            {navLinks.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`relative py-1 text-sm font-medium transition-colors hover:text-ink ${
+                      isActive
+                        ? "text-ink after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-accent"
+                        : "text-ink/60"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+            <li>
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-lift rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-on-accent hover:bg-accent-hover"
+              >
+                Join Discord
+              </a>
             </li>
-          ))}
-        </ul>
+          </ul>
+
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-ink/70 transition-colors hover:bg-secondary hover:text-ink sm:hidden"
+          >
+            <svg
+              aria-hidden="true"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            >
+              {menuOpen ? (
+                <path d="M5 5l10 10M15 5L5 15" />
+              ) : (
+                <path d="M3 5h14M3 10h14M3 15h14" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile panel */}
+        {menuOpen && (
+          <ul id="mobile-nav" className="flex flex-col gap-1 border-t border-deepest py-4 sm:hidden">
+            {navLinks.map(({ href, label }) => {
+              const isActive = pathname === href;
+              return (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={closeMenu}
+                    className={`block rounded-lg px-3 py-2 text-base font-medium transition-colors ${
+                      isActive
+                        ? "bg-secondary text-ink"
+                        : "text-ink/60 hover:bg-secondary/60 hover:text-ink"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
+            <li className="mt-2 px-3">
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-lift inline-flex rounded-full bg-accent px-4 py-1.5 text-sm font-semibold text-on-accent hover:bg-accent-hover"
+              >
+                Join Discord
+              </a>
+            </li>
+          </ul>
+        )}
       </nav>
     </header>
   );
