@@ -19,6 +19,14 @@ class Person(BaseModel):
     socials: Optional[list[Social]] = None
 
 
+class ArchiveItem(BaseModel):
+    """A photo/video embedded from a public Facebook post — the media stays
+    on Facebook, `url` is just the post's permalink."""
+    type: Literal["video", "post"]
+    url: str
+    caption: Optional[str] = None
+
+
 class EventCreate(BaseModel):
     title: str
     date: str
@@ -39,3 +47,4 @@ class EventCreate(BaseModel):
     timeframe: Optional[str] = None
     schedule: Optional[list[ScheduleItem]] = None
     lumaUrl: Optional[str] = None
+    archive: Optional[list[ArchiveItem]] = None

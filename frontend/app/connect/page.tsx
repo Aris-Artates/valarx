@@ -50,7 +50,7 @@ export default function ConnectPage() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${label} — ${cta} (opens in a new tab)`}
-            className="btn-lift group flex flex-col items-start justify-between gap-4 rounded-xl border border-deepest bg-secondary p-6 sm:flex-row sm:items-center hover:border-accent/50 hover:bg-background-dark"
+            className="card-grow group flex flex-col items-start justify-between gap-4 rounded-xl border border-deepest bg-secondary p-6 sm:flex-row sm:items-center hover:border-accent/50 hover:bg-background-dark"
           >
             <div className="flex flex-col gap-1">
               <p className="font-semibold text-ink">{label}</p>

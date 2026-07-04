@@ -17,6 +17,22 @@ export interface Person {
   socials?: Social[];
 }
 
+/**
+ * A photo or video archived from a public Facebook post. The media is
+ * embedded straight from Facebook (nothing is re-uploaded) and plays in
+ * place inside the event modal.
+ *
+ * `url` is the post's normal permalink, e.g.
+ *   video: "https://www.facebook.com/<page>/videos/<id>/"
+ *   photo/text post: "https://www.facebook.com/<page>/posts/<id>"
+ */
+export interface ArchiveItem {
+  /** 'video' uses Facebook's video player; 'post' renders photo/text posts. */
+  type: 'video' | 'post';
+  url: string;
+  caption?: string;
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -38,6 +54,8 @@ export interface Event {
   timeframe?: string;
   schedule?: ScheduleItem[];
   lumaUrl?: string;
+  /** Facebook photos/videos shown as the event's archive once it has run. */
+  archive?: ArchiveItem[];
 }
 
 export const staticEvents: Event[] = [

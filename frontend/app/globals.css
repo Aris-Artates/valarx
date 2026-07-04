@@ -47,7 +47,7 @@ summary {
   text-transform: uppercase;
 }
 
-/* Interactive lift: hover raise + soft shadow, pressed scale */
+/* Control hover: raise + grow, pressed squeeze — for buttons and small controls */
 @utility btn-lift {
   transition:
     transform var(--duration-base) var(--ease-smooth),
@@ -57,12 +57,43 @@ summary {
     color var(--duration-base) var(--ease-smooth);
 
   &:hover {
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.04);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   }
 
   &:active {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0) scale(0.97);
+  }
+}
+
+/* Card hover: grow slightly and rise above neighbouring cards */
+@utility card-grow {
+  position: relative;
+  transition:
+    transform var(--duration-base) var(--ease-smooth),
+    box-shadow var(--duration-base) var(--ease-smooth),
+    background-color var(--duration-base) var(--ease-smooth),
+    border-color var(--duration-base) var(--ease-smooth),
+    color var(--duration-base) var(--ease-smooth),
+    opacity var(--duration-base) var(--ease-smooth);
+
+  &:hover {
+    transform: scale(1.015);
+    z-index: 10;
+    box-shadow: var(--shadow-glow);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+/* Panel hover: near-subliminal grow for large surfaces */
+@utility panel-grow {
+  transition: transform var(--duration-base) var(--ease-smooth);
+
+  &:hover {
+    transform: scale(1.008);
   }
 }
 
@@ -102,16 +133,8 @@ summary {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+/*
+ * Owner decision (July 2026): ease animations run for everyone — the
+ * prefers-reduced-motion neutralizer was removed on purpose. Don't re-add
+ * it without asking.
+ */

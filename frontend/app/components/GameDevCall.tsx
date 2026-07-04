@@ -47,12 +47,12 @@ export default function GameDevCall() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${title} — join the Game Dev Open Call on Discord (opens in a new tab)`}
-                className="btn-lift group flex flex-col gap-4 rounded-xl border border-deepest bg-background-dark/50 p-7 hover:border-accent/40"
+                className="card-grow ease-snap group flex flex-col gap-4 rounded-xl border border-deepest bg-background-dark/50 p-7 hover:border-accent/40"
               >
-                <div className="h-px w-8 bg-accent transition-[width] duration-300 group-hover:w-14" />
+                <div className="h-px w-14 origin-left scale-x-50 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" />
                 <p className="font-semibold text-ink">{title}</p>
                 <p className="text-sm leading-6 text-ink/55">{description}</p>
-                <span className="mt-auto text-sm font-medium text-ink/40 transition-colors group-hover:text-accent">
+                <span className="mt-auto inline-block text-sm font-medium text-ink/40 transition-all group-hover:translate-x-1 group-hover:text-accent">
                   Join in &rarr;
                 </span>
               </a>

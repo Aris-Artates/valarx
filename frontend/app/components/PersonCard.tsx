@@ -76,7 +76,11 @@ function CardContent({ person, size }: { person: Person; size: "sm" | "lg" }) {
             src={person.photo}
             alt={person.name}
             fill
-            className={size === "sm" ? "object-contain object-top" : "object-cover object-top"}
+            className={
+              size === "sm"
+                ? "object-contain object-top transition-transform duration-300 group-hover:scale-105"
+                : "object-cover object-top"
+            }
           />
         ) : (
           <span style={size === "lg" ? { fontSize: "6vh" } : undefined}>
@@ -227,7 +231,7 @@ export default function PersonCard({ person }: { person: Person }) {
     <>
       <div
         onClick={() => setExpanded(true)}
-        className="flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-background-dark text-center transition-colors overflow-hidden p-0 ring-1 ring-deepest"
+        className="card-grow group flex h-full cursor-pointer flex-col items-center justify-center gap-3 bg-background-dark text-center overflow-hidden p-0 ring-1 ring-deepest"
       >
         <CardContent person={person} size="sm" />
       </div>

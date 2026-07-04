@@ -126,7 +126,7 @@ export default function AboutPage() {
           {programs.map(({ number, title, description }) => (
             <div
               key={number}
-              className="flex flex-col gap-4 rounded-xl border border-deepest bg-secondary p-8"
+              className="card-grow flex flex-col gap-4 rounded-xl border border-deepest bg-secondary p-8"
             >
               <span className="text-2xl font-bold text-accent/40">{number}</span>
               <p className="font-semibold text-ink">{title}</p>
@@ -157,7 +157,7 @@ export default function AboutPage() {
           {groups.map(({ label, description }) => (
             <div
               key={label}
-              className="flex flex-col gap-4 rounded-xl border border-deepest bg-secondary p-7"
+              className="card-grow flex flex-col gap-4 rounded-xl border border-deepest bg-secondary p-7"
             >
               <div className="h-px w-8 bg-accent" />
               <p className="font-semibold text-ink">{label}</p>
@@ -185,7 +185,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <FadeIn>
-        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-deepest bg-secondary p-8 sm:flex-row sm:items-center sm:p-10">
+        <div className="panel-grow flex flex-col items-start justify-between gap-6 rounded-2xl border border-deepest bg-secondary p-8 sm:flex-row sm:items-center sm:p-10">
           <div className="flex flex-col gap-2">
             <h2 className="text-xl font-bold text-ink">
               Sound like your kind of place?

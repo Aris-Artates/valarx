@@ -2,6 +2,7 @@
 
 import { Event } from '@/app/data/events';
 import { EventStatus, daysUntil } from '@/lib/eventStatus';
+import StatusChip from './StatusChip';
 
 interface EventCardProps {
   event: Event;
@@ -9,25 +10,6 @@ interface EventCardProps {
   variant: 'active' | 'archived';
   isActive?: boolean;
   onSelect: (event: Event) => void;
-}
-
-function StatusChip({ status }: { status: EventStatus }) {
-  if (status === 'ongoing') {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-0.5 text-xs font-semibold text-on-accent">
-        <span aria-hidden="true" className="h-1.5 w-1.5 animate-pulse rounded-full bg-on-accent" />
-        Happening now
-      </span>
-    );
-  }
-  if (status === 'upcoming') {
-    return (
-      <span className="rounded-full border border-accent/50 px-2.5 py-0.5 text-xs font-medium text-accent">
-        Upcoming
-      </span>
-    );
-  }
-  return null;
 }
 
 export default function EventCard({ event, status, variant, isActive = false, onSelect }: EventCardProps) {
@@ -39,7 +21,7 @@ export default function EventCard({ event, status, variant, isActive = false, on
     <button
       onClick={() => onSelect(event)}
       aria-label={`${event.title} — ${archived ? 'completed' : status} event. View details`}
-      className={`group relative w-full rounded-xl border text-left transition-all duration-200 ${
+      className={`card-grow group w-full rounded-xl border text-left ${
         archived
           ? `p-4 ${
               isActive
@@ -49,7 +31,7 @@ export default function EventCard({ event, status, variant, isActive = false, on
           : `p-5 ${
               isActive
                 ? 'border-accent bg-background-dark'
-                : 'border-deepest bg-secondary hover:border-accent/40 hover:bg-background-dark hover:shadow-glow-strong'
+                : 'border-deepest bg-secondary hover:border-accent/40 hover:bg-background-dark'
             }`
       }`}
     >
@@ -69,12 +51,7 @@ export default function EventCard({ event, status, variant, isActive = false, on
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            {!archived && <StatusChip status={status} />}
-            {archived && (
-              <span className="rounded-full border border-deepest px-2.5 py-0.5 text-xs font-medium text-ink/40">
-                Completed
-              </span>
-            )}
+            <StatusChip status={archived ? 'completed' : status} />
             <span
               className={`rounded-full bg-deepest px-2.5 py-0.5 text-xs font-medium ${
                 archived ? 'text-ink/40' : 'text-ink/60'

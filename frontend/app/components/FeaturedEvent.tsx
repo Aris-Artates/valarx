@@ -34,7 +34,7 @@ export default function FeaturedEvent({
   return (
     <section
       aria-label={`${LABELS[status]}: ${event.title}`}
-      className={`relative overflow-hidden rounded-2xl border border-deepest bg-secondary ${
+      className={`panel-grow relative overflow-hidden rounded-2xl border border-deepest bg-secondary ${
         compact ? 'p-6 sm:p-8' : 'p-8 sm:p-10'
       }`}
     >

@@ -212,7 +212,9 @@ to token utilities so it doesn't look like a different site. Low priority, last.
 - Registration route `/event/[id]/register` resolving the hash and embedding `lumaUrl`.
 - Admin event creation form POSTing to the backend; middleware cookie guard on `/admin/*`.
 - Accessibility floor: global `:focus-visible` ring, `aria-current` nav, modal focus trap,
-  `role="status"` loading states, `prefers-reduced-motion` — all preserved.
+  `role="status"` loading states — all preserved. (`prefers-reduced-motion` support was
+  removed July 2026 by owner decision: ease animations always run. Don't re-add the
+  neutralizer block without asking.)
 
 ## Execution phases
 
@@ -228,6 +230,122 @@ to token utilities so it doesn't look like a different site. Low priority, last.
 | 7 | Verification: keyboard pass, reduced-motion pass, 360px→desktop responsive pass, API-down fallback pass, `npm run build` | ship |
 
 Each phase leaves the site working — no long broken branch.
+
+## Hover size-change motion plan (implemented)
+
+Goal: every interactive surface visibly grows on hover and settles back on leave, tiered by
+surface size so it reads as responsive, not cartoonish. Builds on the existing global easing
+rule and motion tokens.
+
+### Principles
+
+1. **Transform-only.** All size changes via `scale()` — never animate `width`/`height`/
+   `padding`/`font-size` on hover (reflow + neighbour shift). Accent hairlines that "widen"
+   use `scale-x` with `origin-left` instead of width.
+2. **Tiered scale amounts** — bigger surface, smaller scale:
+   | Tier | Elements | Hover | Active (press) |
+   |---|---|---|---|
+   | Controls | buttons, chips, CTA pills, logo | `scale(1.04)` + existing lift | `scale(0.97)` |
+   | Cards | pillar/open-call/connect cards, event rows | `scale(1.015)` + `z-10` + shadow | `scale(0.99)` |
+   | Panels | featured-event spotlight, community strip | `scale(1.008)` | — |
+   | Details | icons, arrows, timeline dots, close buttons | `scale(1.15)` or translate | — |
+   | Media | photos inside cards (PersonCard) | inner image `scale(1.06)` under `overflow-hidden` | — |
+3. **Inline text links never scale** (nav/footer links keep color + underline treatments;
+   scaling inline text looks wobbly). Exception: the nav underline itself grows via `scale-x`.
+4. **Easing:** `ease-smooth` everywhere; `ease-snap` (the unused overshoot token) reserved for
+   the playful tier — pillar and open-call cards — so they pop slightly.
+5. **Grid overlap:** scaled cards get `hover:z-10`; parent containers must not clip
+   (`overflow-hidden` only on inner media wrappers).
+6. **Reduced motion:** already neutralized by the global media block — no exceptions.
+
+### Utility changes (`globals.css`)
+
+- `btn-lift` (upgrade): add `scale(1.04)` to hover, `scale(0.97)` to active — every existing
+  button site-wide inherits the size change with zero call-site edits.
+- `card-grow` (new): `hover:scale(1.015) + z-10 + shadow-glow`, `active:scale(0.99)`,
+  `ease-snap` variant via a second class or data attribute.
+- `panel-grow` (new): `hover:scale(1.008)` for the two large panels.
+- Media zoom stays inline Tailwind (`group` + `group-hover:scale-105 transition-transform`).
+
+### Per-surface map
+
+| Surface | Treatment |
+|---|---|
+| Header nav links | underline `scale-x` 0→1 grow; no text scale |
+| Logo | `scale(1.05)` |
+| Mobile menu rows | background fill + slight `translate-x` |
+| Hero CTAs / all buttons | upgraded `btn-lift` (automatic) |
+| Home pillar cards | `card-grow` + `ease-snap`, hairline `scale-x` widen, arrow `translate-x` |
+| Featured event panel | `panel-grow` |
+| Community strip / About CTA panels | `panel-grow` |
+| EventCard rows | `card-grow` (keeps existing hover-expand of brief) |
+| EventTimeline dots | dot `scale(1.3)` on hover |
+| Open-call cards | `card-grow` + `ease-snap`; hairline widen becomes `scale-x` |
+| Connect link cards | `card-grow`; CTA pill inherits `btn-lift` sizing |
+| PersonCard | card `scale(1.02)` + photo `scale(1.06)` zoom |
+| Modal close ✕ | `scale(1.15)` + 90° rotate |
+| About program/group cards | `card-grow` |
+
+### Execution order
+
+1. Utilities (btn-lift upgrade, card-grow, panel-grow) — buttons change site-wide instantly.
+2. Shell: nav underline grow, logo, mobile menu.
+3. Home: pillars, panels.
+4. Events: cards, timeline dots, open call, modal close.
+5. About + Connect cards.
+6. Verify: build, hover computed-transform checks in preview, reduced-motion pass.
+
+## Iteration 2 — Events restructure + Facebook integration (July 2026)
+
+Supersedes the "Events" page structure above (the featured spotlight moved to Home).
+
+### Events page `app/event/page.tsx` — tabbed
+
+Four tabs with count badges (roving-tabindex tablist, arrow-key navigation, lime underline):
+
+1. **Ongoing** — the DEFAULT tab; empty state has a jump-to-Upcoming button.
+2. **Upcoming** — soonest first; `EventGrid` shows its own empty state when nothing is scheduled.
+3. **Past events** — archived `EventCard` stack, newest first.
+4. **Timeline** — the consolidated summary of *all* events in `EventTimeline`: compact clickable
+   rows (date · title · status chip), year separators, status-aware dots (pulsing accent =
+   ongoing), and a lime **Today** line separating future from past.
+
+Tab save-state: the selected tab is held in module scope (like `eventsCache`), so client-side
+navigation away and back restores it; a full refresh resets to Ongoing (deliberate — do not
+"fix" this by moving it to sessionStorage). **Game Dev Open Call** lives INSIDE the Ongoing tab
+(it's a standing "now running" program) and counts +1 toward that tab's badge; deep links to
+`/event#open-call` force-select the Ongoing tab and scroll to the panel.
+
+`StatusChip` was extracted from `EventCard` into `app/components/StatusChip.tsx` and is shared
+by the card and the timeline.
+
+### Home `app/page.tsx`
+
+"On the calendar" became **"Featured events"**: the `FeaturedEvent` spotlight plus up to two
+more non-completed events as cards. The event details modal now opens on Home too (spotlight
+"View details" and cards), instead of bouncing to the events page.
+
+### Facebook integration
+
+Two features, both designed to degrade to nothing when unconfigured:
+
+1. **Event archives (live now, no token needed).** `Event.archive?: ArchiveItem[]`
+   (`{ type: 'video' | 'post', url, caption? }`) — `url` is a public Facebook post/video
+   permalink. `FacebookEmbed.tsx` renders it through Facebook's iframe plugin endpoints
+   (`plugins/video.php` / `plugins/post.php`), so media plays in the event modal ("Event
+   archive" section) without ever re-uploading it. Backend `EventCreate` accepts the same
+   field. To archive an event: copy the post's Share > permalink into the event's `archive`.
+2. **Page stats strip (built, needs a token to activate).** Backend `GET /facebook/stats`
+   proxies the Graph API (followers, page likes, 28-day page views) with a 1-hour in-memory
+   cache; the token stays server-side. Frontend `FacebookStats.tsx` sits in the Home community
+   strip and renders nothing until the endpoint responds. Activate by setting `FB_PAGE_ID` +
+   `FB_PAGE_ACCESS_TOKEN` in `backend/.env`: generate a short-lived token in Graph API
+   Explorer (as the page admin, with `pages_show_list` + `pages_read_engagement` +
+   `read_insights`), then run `backend/scripts/get_page_token.py <token>` — it exchanges it
+   via the app credentials (`FB_APP_ID`/`FB_APP_SECRET`, already in `.env`) and prints the
+   non-expiring page token lines to paste in. Note: Meta periodically deprecates Page
+   Insights metrics — the endpoint tolerates partial failures and the frontend hides missing
+   numbers.
 
 ## Open items
 

@@ -23,7 +23,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-deepest bg-background/90 backdrop-blur">
       <nav aria-label="Primary" className="mx-auto w-full max-w-6xl px-6">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" aria-label="VALARX home" onClick={closeMenu} className="flex items-center gap-2.5">
+          <Link href="/" aria-label="VALARX home" onClick={closeMenu} className="flex items-center gap-2.5 hover:scale-105">
             <Image
               src="/valarx.png"
               alt=""
@@ -46,10 +46,10 @@ export default function Header() {
                   <Link
                     href={href}
                     aria-current={isActive ? "page" : undefined}
-                    className={`relative py-1 text-sm font-medium transition-colors hover:text-ink ${
+                    className={`relative py-1 text-sm font-medium transition-colors hover:text-ink after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:origin-left after:rounded-full after:bg-accent after:transition-transform after:duration-200 after:ease-out ${
                       isActive
-                        ? "text-ink after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-accent"
-                        : "text-ink/60"
+                        ? "text-ink after:scale-x-100"
+                        : "text-ink/60 after:scale-x-0 hover:after:scale-x-100"
                     }`}
                   >
                     {label}
@@ -108,7 +108,7 @@ export default function Header() {
                     href={href}
                     aria-current={isActive ? "page" : undefined}
                     onClick={closeMenu}
-                    className={`block rounded-lg px-3 py-2 text-base font-medium transition-colors ${
+                    className={`block rounded-lg px-3 py-2 text-base font-medium hover:translate-x-1 ${
                       isActive
                         ? "bg-secondary text-ink"
                         : "text-ink/60 hover:bg-secondary/60 hover:text-ink"

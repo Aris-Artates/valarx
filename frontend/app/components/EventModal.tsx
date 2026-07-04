@@ -6,6 +6,7 @@ import { Event } from "@/app/data/events";
 import { getEventStatus } from "@/lib/eventStatus";
 import { hashEventId } from "@/lib/eventHash";
 import PersonCard from "@/app/components/PersonCard";
+import FacebookEmbed from "@/app/components/FacebookEmbed";
 
 interface EventModalProps {
   event: Event;
@@ -52,7 +53,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
         <button
           ref={closeRef}
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1.5 text-ink/40 transition-colors hover:bg-background-dark hover:text-ink"
+          className="absolute right-4 top-4 rounded-full p-1.5 text-ink/40 transition-all hover:rotate-90 hover:scale-110 hover:bg-background-dark hover:text-ink"
           aria-label="Close event details"
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,6 +125,23 @@ export default function EventModal({ event, onClose }: EventModalProps) {
         <div className="mt-6">
           <p className="leading-7 text-ink/70">{event.description}</p>
         </div>
+
+        {/* Archive — photos/videos embedded from the Facebook page */}
+        {event.archive && event.archive.length > 0 && (
+          <div className="mt-8">
+            <h3 className="mb-1 text-sm font-semibold uppercase tracking-widest text-ink/50">
+              Event archive
+            </h3>
+            <p className="mb-4 text-xs text-ink/35">
+              Photos and videos from our Facebook page &mdash; they play right here.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              {event.archive.map((item) => (
+                <FacebookEmbed key={item.url} item={item} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Program Schedule */}
         {event.schedule && event.schedule.length > 0 && (
