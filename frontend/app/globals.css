@@ -18,6 +18,49 @@ body {
 }
 
 /*
+ * Custom scrollbar — slim rounded thumb, invisible track, accent feedback
+ * while interacting. Applies to the page and every inner scroller (event
+ * modal, tab bar overflow). The transparent border + background-clip keeps
+ * a gutter around the thumb so it reads as a floating pill.
+ */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--background-deepest);
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-dim);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--accent);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox has no ::-webkit-scrollbar; give it the same palette. Scoped so
+ * Chromium ignores it — scrollbar-color would disable the styles above. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--background-deepest) transparent;
+  }
+}
+
+/*
  * Main interaction rule: every interactive element eases in on hover and
  * eases back out on leave. Lives in the base layer ON PURPOSE — Tailwind
  * emits utilities in a later layer, so per-component transition utilities
