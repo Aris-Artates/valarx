@@ -22,15 +22,26 @@ const TABS: { id: TabId; label: string }[] = [
 
 // Remembered across client-side navigations (module scope, like the events
 // cache) so coming back mid-session lands on the tab you left. A full page
-// refresh resets it — a fresh visit always starts on Ongoing.
+// refresh resets it — a fresh visit always starts on Ongoing. Mutated from a
+// module-level helper (mirroring the events cache) rather than from inside the
+// component, since React's lint rules forbid reassigning outer variables from
+// a component or hook.
 let savedTab: TabId = 'ongoing';
+
+function persistTab(id: TabId) {
+  savedTab = id;
+}
 
 export default function EventPage() {
   // Starts from the session cache — the skeleton only appears on the first
   // visit of the session, not on every navigation back to this page.
   const [events, setEvents] = useState<Event[] | null>(getCachedEvents);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  const [tab, setTab] = useState<TabId>(savedTab);
+  const [tab, setTab] = useState<TabId>(() =>
+    typeof window !== 'undefined' && window.location.hash === '#open-call'
+      ? 'ongoing'
+      : savedTab,
+  );
   const tabRefs = useRef<Partial<Record<TabId, HTMLButtonElement | null>>>({});
 
   useEffect(() => {
@@ -46,7 +57,7 @@ export default function EventPage() {
   }, [events]);
 
   const selectTab = (id: TabId) => {
-    savedTab = id;
+    persistTab(id);
     setTab(id);
   };
 
@@ -62,7 +73,7 @@ export default function EventPage() {
   };
 
   const loaded = events !== null;
-  const list = events ?? [];
+  const list = useMemo(() => events ?? [], [events]);
 
   const { ongoing, upcoming, past } = useMemo(() => {
     const withStatus = list.map((event) => ({ event, status: getEventStatus(event) }));
@@ -87,10 +98,10 @@ export default function EventPage() {
   };
 
   // Deep links to /event#open-call (home page pillar) land on the Ongoing
-  // tab, where the open call lives now.
+  // tab, where the open call lives now. The tab is selected from the initial
+  // state above; this effect only handles the scroll once the list is ready.
   useEffect(() => {
     if (!loaded || window.location.hash !== '#open-call') return;
-    selectTab('ongoing');
     const t = setTimeout(() => {
       document.getElementById('open-call')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
