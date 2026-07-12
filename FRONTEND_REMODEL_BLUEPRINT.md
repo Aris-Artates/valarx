@@ -347,6 +347,41 @@ Two features, both designed to degrade to nothing when unconfigured:
    Insights metrics — the endpoint tolerates partial failures and the frontend hides missing
    numbers.
 
+## Iteration 3 — Motion pass + first live archive (July 2026)
+
+### First Facebook archive entry
+
+The Lua Fundamentals event now carries its trailer:
+`https://www.facebook.com/61586341747138/videos/1475117197612134/` (resolved from the
+`facebook.com/share/v/…` short link — **share links do NOT work in the embed plugin**; always
+resolve them to the canonical permalink first by opening the link in a browser and copying the
+final URL). The trailer is a Reel, so `ArchiveItem` gained `portrait?: boolean` (frontend +
+backend): portrait items render in a 9:16 frame (`max-w-[360px]`), landscape videos in 16:9
+(`max-w-[720px]`). Videos embed with `show_text=false` (bare player, no post chrome); posts
+keep `show_text=true`.
+
+### Entrance animations (added)
+
+New keyframe utilities in `globals.css` — `anim-fade-in`, `anim-rise-in`, `anim-drop-in`,
+`anim-swap-in` (opacity/transform only, compositor-friendly). Used by: event modal (backdrop
+fade + panel rise), mobile menu (drop-in), events tab panels (swap-in, panel is keyed by tab
+so switching remounts it). `SplashScreen` no longer skips itself on `prefers-reduced-motion`
+(same owner decision as the CSS neutralizer removal); it still shows once per session.
+
+### Card hover perf fix
+
+The EventCard hover reveal used to animate `max-height`, which resized the card and shifted
+every card below it mid-animation — fast cursor movement chased cards that were still moving.
+The brief + location line is now **always visible** (also better on touch, where hover never
+fires); hover brightens the text and fades in the "Click for full details" hint instead
+(opacity/color only — no layout). `card-grow`/`panel-grow` gained `will-change: transform`,
+and `card-grow` no longer animates `box-shadow` (per-frame shadow repaints stutter across
+card stacks; the shadow now appears un-animated on hover).
+
+**Cascade-layer gotcha (do not regress):** the global `a, button, …` transition rule in
+`globals.css` must stay inside `@layer base`. Unlayered, it beats every Tailwind utility
+(utilities live in a later layer) and silently re-adds `box-shadow` animation to cards.
+
 ## Open items
 
 1. **Featured-event freshness**: with only one seeded event, the spotlight logic must degrade

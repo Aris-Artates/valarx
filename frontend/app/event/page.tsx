@@ -155,12 +155,14 @@ export default function EventPage() {
             })}
           </div>
 
-          {/* Active panel */}
+          {/* Active panel — keyed by tab so switching remounts it and plays
+              the swap-in entrance */}
           <div
+            key={tab}
             role="tabpanel"
             id="events-panel"
             aria-labelledby={`events-tab-${tab}`}
-            className="flex flex-col gap-4"
+            className="anim-swap-in flex flex-col gap-4"
           >
             {tab === 'ongoing' && (
               <>

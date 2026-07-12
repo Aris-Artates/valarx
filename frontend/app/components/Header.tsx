@@ -99,7 +99,7 @@ export default function Header() {
 
         {/* Mobile panel */}
         {menuOpen && (
-          <ul id="mobile-nav" className="flex flex-col gap-1 border-t border-deepest py-4 sm:hidden">
+          <ul id="mobile-nav" className="anim-drop-in flex flex-col gap-1 border-t border-deepest py-4 sm:hidden">
             {navLinks.map(({ href, label }) => {
               const isActive = pathname === href;
               return (

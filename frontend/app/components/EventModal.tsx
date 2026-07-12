@@ -42,12 +42,12 @@ export default function EventModal({ event, onClose }: EventModalProps) {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-deepest/80 backdrop-blur-sm"
+        className="anim-fade-in absolute inset-0 bg-deepest/80 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Panel */}
-      <div className="relative z-10 h-[80vh] w-[80vw] overflow-y-auto rounded-2xl border border-deepest bg-secondary p-5 shadow-modal sm:p-8">
+      <div className="anim-rise-in relative z-10 h-[80vh] w-[80vw] overflow-y-auto rounded-2xl border border-deepest bg-secondary p-5 shadow-modal sm:p-8">
 
         {/* Close button */}
         <button

@@ -19,23 +19,28 @@ body {
 
 /*
  * Main interaction rule: every interactive element eases in on hover and
- * eases back out on leave. Element-level selector, so any per-component
- * Tailwind transition classes still win.
+ * eases back out on leave. Lives in the base layer ON PURPOSE — Tailwind
+ * emits utilities in a later layer, so per-component transition utilities
+ * (card-grow, btn-lift, transition-*) win over this default. Unlayered,
+ * this rule would beat every utility and e.g. force box-shadow animation
+ * back onto cards.
  */
-a,
-button,
-[role="button"],
-input,
-textarea,
-select,
-summary {
-  transition:
-    color var(--duration-base) var(--ease-smooth),
-    background-color var(--duration-base) var(--ease-smooth),
-    border-color var(--duration-base) var(--ease-smooth),
-    box-shadow var(--duration-base) var(--ease-smooth),
-    opacity var(--duration-base) var(--ease-smooth),
-    transform var(--duration-base) var(--ease-smooth);
+@layer base {
+  a,
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select,
+  summary {
+    transition:
+      color var(--duration-base) var(--ease-smooth),
+      background-color var(--duration-base) var(--ease-smooth),
+      border-color var(--duration-base) var(--ease-smooth),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      opacity var(--duration-base) var(--ease-smooth),
+      transform var(--duration-base) var(--ease-smooth);
+  }
 }
 
 /* Small uppercase section label used across pages ("EVENTS", "OUR MISSION", ...) */
@@ -66,12 +71,15 @@ summary {
   }
 }
 
-/* Card hover: grow slightly and rise above neighbouring cards */
+/* Card hover: grow slightly and rise above neighbouring cards.
+ * will-change keeps the scale on the compositor; box-shadow is applied on
+ * hover but deliberately NOT animated — shadow repaints every frame when
+ * transitioned, which made fast hovers across card stacks stutter. */
 @utility card-grow {
   position: relative;
+  will-change: transform;
   transition:
     transform var(--duration-base) var(--ease-smooth),
-    box-shadow var(--duration-base) var(--ease-smooth),
     background-color var(--duration-base) var(--ease-smooth),
     border-color var(--duration-base) var(--ease-smooth),
     color var(--duration-base) var(--ease-smooth),
@@ -90,11 +98,54 @@ summary {
 
 /* Panel hover: near-subliminal grow for large surfaces */
 @utility panel-grow {
+  will-change: transform;
   transition: transform var(--duration-base) var(--ease-smooth);
 
   &:hover {
     transform: scale(1.008);
   }
+}
+
+/* Entrance animations — used by the event modal, mobile menu, and tab
+ * panel swaps. Opacity/transform only, so they stay on the compositor. */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes drop-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes swap-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Backdrop / large fades */
+@utility anim-fade-in {
+  animation: fade-in var(--duration-slow) var(--ease-smooth) both;
+}
+
+/* Dialog panels entering from below */
+@utility anim-rise-in {
+  animation: rise-in var(--duration-slow) var(--ease-smooth) both;
+}
+
+/* Menus unfolding from the header */
+@utility anim-drop-in {
+  animation: drop-in var(--duration-base) var(--ease-smooth) both;
+}
+
+/* Content swapped in place (tab panels) */
+@utility anim-swap-in {
+  animation: swap-in 300ms var(--ease-smooth) both;
 }
 
 /* Hero backdrop: a single soft brand-purple tint fading from the top */

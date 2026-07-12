@@ -65,18 +65,28 @@ export default function EventCard({ event, status, variant, isActive = false, on
             {event.title}
           </h3>
 
-          {/* Brief + location — expands on hover, keyboard focus, or while selected */}
-          <div
-            className={`overflow-hidden transition-all duration-200 ${
-              isActive
-                ? 'mt-2 max-h-24 opacity-100'
-                : 'max-h-0 opacity-0 group-hover:mt-2 group-hover:max-h-24 group-hover:opacity-100 group-focus-visible:mt-2 group-focus-visible:max-h-24 group-focus-visible:opacity-100'
-            }`}
-          >
-            <p className="text-sm text-ink/60">{event.brief}</p>
+          {/* Brief + location — always visible so hovering never changes the
+              card's height (height animation made stacked cards shift and
+              stutter under a fast-moving cursor). Hover brightens instead. */}
+          <div className="mt-2">
+            <p
+              className={`text-sm transition-colors duration-200 ${
+                archived ? 'text-ink/45 group-hover:text-ink/65' : 'text-ink/55 group-hover:text-ink/75'
+              }`}
+            >
+              {event.brief}
+            </p>
             <p className="mt-1 text-xs text-ink/35">
-              {event.location} &mdash;{' '}
-              <span className="text-ink/50">Click for full details</span>
+              {event.location}
+              <span
+                className={`transition-opacity duration-200 ${
+                  isActive
+                    ? 'opacity-100'
+                    : 'opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100'
+                }`}
+              >
+                {' '}&mdash; <span className="text-ink/50">Click for full details</span>
+              </span>
             </p>
           </div>
         </div>

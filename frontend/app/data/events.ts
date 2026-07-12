@@ -31,6 +31,8 @@ export interface ArchiveItem {
   type: 'video' | 'post';
   url: string;
   caption?: string;
+  /** Portrait media (reels, vertical video) — rendered in a 9:16 frame. */
+  portrait?: boolean;
 }
 
 export interface Event {
@@ -96,6 +98,14 @@ export const staticEvents: Event[] = [
       { time: '3:12 PM - 3:15 PM',  activity: 'Closing Remarks' },
     ],
     lumaUrl: 'https://luma.com/embed/event/evt-RmEy6gjQwHyIKtF/simple',
+    archive: [
+      {
+        type: 'video',
+        url: 'https://www.facebook.com/61586341747138/videos/1475117197612134/',
+        caption: 'Official event trailer',
+        portrait: true,
+      },
+    ],
   },
 ];
 

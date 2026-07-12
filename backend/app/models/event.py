@@ -25,6 +25,8 @@ class ArchiveItem(BaseModel):
     type: Literal["video", "post"]
     url: str
     caption: Optional[str] = None
+    # Portrait media (reels, vertical video) — frontend renders a 9:16 frame.
+    portrait: Optional[bool] = None
 
 
 class EventCreate(BaseModel):

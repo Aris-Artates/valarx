@@ -15,9 +15,10 @@ export default function SplashScreen() {
   const [phase, setPhase] = useState<'enter' | 'exit' | 'done'>('enter');
 
   useEffect(() => {
-    const skip =
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-      sessionStorage.getItem(SESSION_KEY) !== null;
+    // Owner decision (July 2026): animations run for everyone, so the splash
+    // no longer skips itself on prefers-reduced-motion. Repeat visits within
+    // a session still skip it.
+    const skip = sessionStorage.getItem(SESSION_KEY) !== null;
 
     const timers: number[] = [];
     if (skip) {
