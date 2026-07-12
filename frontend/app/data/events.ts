@@ -101,7 +101,7 @@ export const staticEvents: Event[] = [
     archive: [
       {
         type: 'video',
-        url: 'https://www.facebook.com/61586341747138/videos/1475117197612134/',
+        url: 'https://www.facebook.com/reel/1475117197612134/?__cft__[0]=AZa3gxW_UQzN1KwymRYwWYlT9ft48PeJ9pF5zmcIq7RlJYAioJf6lvoRPDRCneaLrh9bk7VMoKA8YahkMq_FDu_tsdOnRnZEQCxKx3K4htMbBmNyE8iidHDGyHlWlHwXedmED9GVUL_4R4q_qvA1-XHHB_U08UV-Txcoc27SlJSM0DakG-BtkXQmLsx8NE57S4q_XbdaPRZ3zR1QzXRcQL-8&__tn__=%2CO%2CP-R',
         caption: 'Official event trailer',
         portrait: true,
       },
